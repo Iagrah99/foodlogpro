@@ -1,9 +1,12 @@
+import { Routes, Route } from 'react-router-dom'
+import Home from "./pages/Home";
+import Login from "./pages/Login.jsx"
+
 export default function App() {
   return (
-    <div className="h-screen flex justify-center flex-col">
-      <h1 className="text-5xl text-center font-bold">
-        Weekly Meals App
-      </h1>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path='/login' element={<Login />} />
+    </Routes>
   )
 }
