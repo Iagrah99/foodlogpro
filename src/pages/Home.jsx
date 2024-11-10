@@ -1,11 +1,14 @@
 import NavigationBar from "../components/NavigationBar"
 import { useNavigate } from "react-router-dom"
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUtensils, faCalendarAlt, faChartLine, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import '../app.css'
 
 const Home = () => {
+
+  const { loggedInUser, setLoggedInUser } = useContext(UserContext);
 
   const navigate = useNavigate();
   const [showText, setShowText] = useState(false); // State to trigger animation
@@ -128,7 +131,7 @@ const Home = () => {
                   <button
                     className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold text-lg py-3 px-10 rounded-full shadow-xl transition duration-500 ease-in-out transform ${showButtons ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
                       }`}
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate(`${loggedInUser ? '/my-meals' : '/login'}`)}
                   >
                     Get Started
                   </button>

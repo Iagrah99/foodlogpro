@@ -21,7 +21,7 @@ const Login = () => {
   const [type, setType] = useState('password');
   const [icon, setIcon] = useState(eyeOff);
 
-  const { setLoggedInUser } = useContext(UserContext);
+  const { loggedInUser, setLoggedInUser } = useContext(UserContext);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
@@ -56,7 +56,7 @@ const Login = () => {
       setLoggedInUser(userDetails)
       localStorage.setItem('loggedInUser', JSON.stringify(userDetails));
       setError(null)
-      navigate('/')
+      navigate('/my-meals')
     } catch (err) {
       setIsError(true)
       setError(err.response.data.msg)

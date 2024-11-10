@@ -10,3 +10,8 @@ export const loginUser = async (username, password) => {
   });
   return res.data.user;
 };
+
+export const getUserMeals = async (user_id) => {
+  const res = await weeklyMealsApi.get(`/users/${user_id}/meals`);
+  return res.data.meals;
+};
