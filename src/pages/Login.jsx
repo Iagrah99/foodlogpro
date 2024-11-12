@@ -53,8 +53,9 @@ const Login = () => {
       setIsLoggingIn(true)
       const userDetails = await loginUser(username, password)
       setIsLoggingIn(false)
-      setLoggedInUser(userDetails)
-      localStorage.setItem('loggedInUser', JSON.stringify(userDetails));
+      setLoggedInUser(userDetails.user)
+      localStorage.setItem('loggedInUser', JSON.stringify(userDetails.user));
+      localStorage.setItem('token', JSON.stringify(userDetails.token));
       setError(null)
       navigate('/my-meals')
     } catch (err) {

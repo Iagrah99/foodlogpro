@@ -153,10 +153,12 @@ const Home = () => {
             </div>
           </header>
 
-          <section id="about" className="w-full min-h-screen flex flex-col justify-between max-w-7xl text-center bg-white pt-32 pb-12 mb-12">
-            <h2 className="text-4xl font-semibold text-gray-900 mb-12">
-              Why Use FoodLogPro?
-            </h2>
+          <section id="about" className="w-full min-h-screen flex flex-col justify-between max-w-7xl text-center bg-white pt-32 pb-12 mb-12 font-sans">
+            <div className="mt-16">
+              <h2 className="text-4xl font-semibold m-auto pb-4 text-gray-900 mb-12 border-b-4 border-indigo-500 w-max">
+                Why Use FoodLogPro?
+              </h2>
+            </div>
             <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
               {/* Feature 1 */}
               <div
@@ -201,9 +203,11 @@ const Home = () => {
 
           {/* Testimonials Section - White Background */}
           <section id="testimonials" className="w-full min-h-screen flex flex-col justify-between max-w-7xl mt-20 text-center bg-white pt-24 pb-16">
-            <h2 className="text-4xl font-semibold text-gray-900 mt-24">
-              What Our Users Say
-            </h2>
+            <div className="mt-16">
+              <h2 className="text-4xl font-semibold m-auto pb-4 text-gray-900 mb-12 border-b-4 border-indigo-500 w-max">
+                What Our Users Say
+              </h2>
+            </div>
             <div className="space-y-12 md:space-y-0 md:grid md:grid-cols-2 gap-12">
 
               {/* Testimonial 1 */}
@@ -241,10 +245,15 @@ const Home = () => {
                   <p className="text-xl text-gray-900 font-semibold">— Sarah H.</p>
                 </div>
               </div>
+
             </div>
-            <a href="#cta" className="text-black mt-15 block">
-              <FontAwesomeIcon icon={faChevronDown} className="text-4xl animate-bounce" />
-            </a>
+
+            <div>
+              <a href="#cta" className="text-black block">
+                <FontAwesomeIcon icon={faChevronDown} className="text-4xl animate-bounce" />
+              </a>
+            </div>
+
           </section>
 
           {/* Call to Action Section - White Background */}

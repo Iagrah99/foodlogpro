@@ -5,13 +5,28 @@ const weeklyMealsApi = axios.create({
 });
 
 export const loginUser = async (username, password) => {
-  const res = await weeklyMealsApi.post('/users/login', {
+  const res = await weeklyMealsApi.post('/auth/login', {
     user: { username, password },
   });
-  return res.data.user;
+  return res.data;
 };
 
-export const getUserMeals = async (user_id) => {
-  const res = await weeklyMealsApi.get(`/users/${user_id}/meals`);
+export const getUserMeals = async (user_id, token) => {
+  const res = await weeklyMealsApi.get(`/users/${user_id}/meals`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return res.data.meals;
+};
+
+export const addMeal = async (meal, token) => {
+  console.log(meal);
+  console.log(token);
+  const res = await weeklyMealsApi.post(
+    '/meals',
+    meal, // Send meal data in the body
+    { headers: { Authorization: `Bearer ${token}` } } // Correct place for headers
+  );
+  return res.data.meal;
 };

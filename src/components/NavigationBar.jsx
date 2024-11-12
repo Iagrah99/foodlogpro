@@ -53,12 +53,20 @@ const NavigationBar = ({ page }) => {
         {/* Navigation links for larger screens and mobile menu */}
         <div className="lg:block space-x-6">
           {loggedInUser ? (
-            <a
-              onClick={handleLogout}
-              className={`text-2xl ${isScrolled ? 'text-gray-800' : 'text-gray-200'} ${isLoginPage && 'text-gray-800 hover:text-gray-800'}  font-semibold no-underline transition duration-300 opacity-100 py-2 px-6 rounded-lg cursor-pointer`}
-            >
-              Logout
-            </a>
+            <div className="flex items-center space-x-4"> {/* Flex container with spacing */}
+              <img
+                src={loggedInUser.avatar}
+                alt="User Avatar"
+                className="h-14 w-14 rounded-full"
+              />
+              <a
+                onClick={handleLogout}
+                className={`text-2xl ${isScrolled ? 'text-gray-800' : 'text-gray-200'} ${isLoginPage && 'text-gray-800 hover:text-gray-800'} font-semibold no-underline transition duration-300 opacity-100 py-2 px-6 rounded-lg cursor-pointer`}
+              >
+                Logout
+              </a>
+            </div>
+
           ) : (
             <>
               <a
