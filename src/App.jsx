@@ -4,6 +4,7 @@ import { UserContext } from './contexts/UserContext';
 import Home from "./pages/Home";
 import Meals from './pages/Meals.jsx';
 import Login from "./pages/Login.jsx"
+import Register from './pages/Register.jsx';
 
 export default function App() {
   const { setLoggedInUser, loggedInUser } = useContext(UserContext);
@@ -24,6 +25,8 @@ export default function App() {
         path="/login"
         element={loggedInUser ? <Navigate to="/my-meals" /> : <Login />}
       />
+
+      <Route path='/register' element={<Register />} />
 
       <Route path='/my-meals' element={<Meals />} />
     </Routes>

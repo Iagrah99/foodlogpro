@@ -123,7 +123,7 @@ const Home = () => {
 
                 {/* Paragraph with fade-in effect */}
                 <p className={`text-lg md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto leading-relaxed transition-opacity duration-1000 ease-in-out ${showText ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-                  Your personalised meal tracker that helps you keep track of what you've been eating, plan your meals, and make healthier choices like a true pro.
+                  Your personalised meal tracker that helps you keep track of what you've been eating, plan your meals, and make healthier choices.
                 </p>
 
                 {/* Buttons */}
@@ -180,7 +180,7 @@ const Home = () => {
                 <FontAwesomeIcon icon={faCalendarAlt} className="text-5xl text-gray-100 mb-6" />
                 <h3 className="text-2xl font-semibold text-gray-200 mb-4">Plan Ahead</h3>
                 <p className="text-lg text-gray-100">
-                  Stay organized by planning your weekly dinners, making it easier to eat balanced meals.
+                  Stay organised by planning your weekly dinners, making it easier to eat balanced meals.
                 </p>
               </div>
 

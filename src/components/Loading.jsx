@@ -1,10 +1,11 @@
 import { Spinner } from "react-bootstrap";
 
-const Loading = ({ content }) => {
+const Loading = () => {
   return (
-    <div className="flex flex-col justify-center items-center text-center min-h-96">
-      <span className="text-3xl lg:text-5xl mb-3">Loading {content}...</span>
-      <Spinner animation="border" role="status" />
+    <div className="flex flex-col justify-center items-center text-center min-h-screen font-bold text-indigo-500">
+      <Spinner animation="border" role="status"
+        style={{ width: '10rem', height: '10rem' }}
+      />
     </div>
   );
 }

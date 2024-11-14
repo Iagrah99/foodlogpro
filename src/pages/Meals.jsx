@@ -13,11 +13,13 @@ const Meals = () => {
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
   const [IsOpen, setIsOpen] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false)
   const { loggedInUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    setIsUpdated(false)
     if (!loggedInUser) {
       navigate('/login');
       return; // Exit if no user is logged in
@@ -57,13 +59,13 @@ const Meals = () => {
     };
 
     fetchMeals();
-  }, [loggedInUser, navigate]);
+  }, [loggedInUser, navigate, isUpdated]);
 
   return (
     <>
       <NavigationBar page="login" />
       {isLoading ? (
-        <Loading content="meals" />
+        <Loading />
       ) : error ? (
         <div className="text-center p-6">
           <div className="text-red-500 text-lg font-semibold">
@@ -89,7 +91,7 @@ const Meals = () => {
               Add New Meal
             </button>
 
-            {IsOpen && <AddMeal setIsOpen={setIsOpen} />}
+            {IsOpen && <AddMeal setIsOpen={setIsOpen} setIsUpdated={setIsUpdated} />}
           </div>
 
           <div className="overflow-x-auto">
