@@ -174,9 +174,19 @@ const Register = () => {
 
   return (
     <>
-      <NavigationBar page="login" />
-      <div className="flex justify-center items-center md:h-[calc(100vh)] h-screen bg-gradient-to-b from-gray-100 to-gray-200">
-        <div className="w-full max-w-md bg-white rounded-lg shadow-lg ring-1 ring-gray-300 p-8">
+      <NavigationBar page="register" />
+      <div
+        className="relative flex justify-center items-center md:h-[calc(100vh)] h-screen bg-gradient-to-b from-gray-100 to-gray-200 bg-no-repeat"
+        style={{
+          backgroundImage: 'url(https://i.ibb.co/vmr8N2r/login-bg-3.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        {/* Overlay for opacity */}
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+
+        <div className="relative w-full max-w-md bg-white rounded-lg shadow-lg ring-1 ring-gray-300 p-8">
           <h2 className="text-3xl font-semibold text-center text-indigo-600 mb-6">
             Create Your Account
           </h2>
@@ -185,6 +195,7 @@ const Register = () => {
           </p>
 
           <form className="space-y-6" onSubmit={handleRegister}>
+            {/* Email Field */}
             <div className="relative">
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email
@@ -197,20 +208,15 @@ const Register = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                onFocus={handleEmailFocus} // Clear messages on focus
-                onBlur={checkEmailTaken} // Check availability on blur
-                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-                title="Please enter a valid email address, e.g., example@domain.com"
+                onFocus={handleEmailFocus}
+                onBlur={checkEmailTaken}
               />
-
               {isCheckingEmail && (
                 <span className="absolute inset-y-11 right-0 flex items-center pr-3">
                   <Icon icon={spinner3} size={20} className="animate-spin text-indigo-500" />
                 </span>
               )}
             </div>
-
-            {/* Email availability or error message */}
             {isEmailTaken === false && email && (
               <p className="mt-2 text-sm text-green-500">Email is available!</p>
             )}
@@ -218,6 +224,7 @@ const Register = () => {
               <p className="mt-2 text-sm text-red-500">{emailError}</p>
             )}
 
+            {/* Username Field */}
             <div className="relative">
               <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                 Username
@@ -230,8 +237,8 @@ const Register = () => {
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                onFocus={handleUsernameFocus} // Clear messages on focus
-                onBlur={checkUsernameTaken} // Check availability on blur
+                onFocus={handleUsernameFocus}
+                onBlur={checkUsernameTaken}
               />
               {isCheckingUsername && (
                 <span className="absolute inset-y-11 right-0 flex items-center pr-3">
@@ -239,8 +246,6 @@ const Register = () => {
                 </span>
               )}
             </div>
-
-            {/* Username availability or error message */}
             {isUsernameTaken === false && username && (
               <p className="mt-2 text-sm text-green-500">Username is available!</p>
             )}
@@ -248,6 +253,7 @@ const Register = () => {
               <p className="mt-2 text-sm text-red-500">{usernameError}</p>
             )}
 
+            {/* Password Field */}
             <div className="relative">
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
@@ -259,7 +265,7 @@ const Register = () => {
                 placeholder="Create a password"
                 required
                 value={password}
-                onChange={handlePasswordChange} // Use handlePasswordChange
+                onChange={handlePasswordChange}
                 onBlur={() => validatePassword(password)}
                 onFocus={() => setPasswordError(null)}
               />
@@ -270,12 +276,11 @@ const Register = () => {
                 <Icon icon={showPassword ? eye : eyeOff} size={25} />
               </span>
             </div>
-
-            {/* Password error message */}
             {passwordError && (
               <p className="mt-2 text-sm text-red-500">{passwordError}</p>
             )}
 
+            {/* Avatar Upload Field */}
             <div>
               <label
                 htmlFor="image"
@@ -288,25 +293,24 @@ const Register = () => {
                   type="file"
                   accept="image/*"
                   id="image"
-                  className="block w-full px-3 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg shadow-sm bg-gray-50 placeholder-gray-400
-                 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer"
+                  className="block w-full px-3 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg shadow-sm bg-gray-50 placeholder-gray-400 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer"
                   onChange={(e) => {
                     const file = e.target.files[0];
                     setAvatarFile(file);
                     setIsError(false);
                     if (file) {
                       handleImageUpload(file);
-                      console.log(avatarUrl);
                     }
                   }}
                 />
               </div>
             </div>
 
-
+            {/* Submit Button */}
             <button
               type="submit"
-              className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${!isFormValid && "opacity-50 cursor-not-allowed"}`}
+              className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${!isFormValid && "opacity-50 cursor-not-allowed"
+                }`}
               disabled={!isFormValid}
             >
               Sign Up
@@ -314,9 +318,7 @@ const Register = () => {
           </form>
 
           {isError && (
-            <div className="mt-4 text-center text-red-500 text-sm">
-              {error}
-            </div>
+            <div className="mt-4 text-center text-red-500 text-sm">{error}</div>
           )}
 
           <p className="mt-6 text-center text-sm text-gray-600">
@@ -329,6 +331,8 @@ const Register = () => {
       </div>
     </>
   );
+
+
 };
 
 export default Register;

@@ -5,7 +5,7 @@ import Loading from "../components/Loading";
 import AddMeal from "../components/AddMeal";
 import { UserContext } from "../contexts/UserContext";
 import { format } from 'date-fns'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const Meals = () => {
   const [meals, setMeals] = useState([]);
@@ -14,7 +14,10 @@ const Meals = () => {
   const [error, setError] = useState(null);
   const [IsOpen, setIsOpen] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false)
-  const { loggedInUser } = useContext(UserContext);
+
+  const { loggedInUser, setLoggedInUser } = useContext(UserContext);
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const navigate = useNavigate();
 
@@ -24,6 +27,13 @@ const Meals = () => {
       navigate('/login');
       return; // Exit if no user is logged in
     }
+
+    if (error && error === "Forbidden: Invalid token") {
+      setLoggedInUser(null);
+      localStorage.removeItem('loggedInUser');
+      localStorage.removeItem('token');
+      navigate("/login");
+    };
 
     const fetchMeals = async () => {
       let elapsedSeconds = 0;
@@ -67,9 +77,9 @@ const Meals = () => {
       {isLoading ? (
         <Loading />
       ) : error ? (
-        <div className="text-center p-6">
+        <div className="flex flex-col justify-center items-center text-center min-h-screen font-bold">
           <div className="text-red-500 text-lg font-semibold">
-            {error.message || "Failed to load meals. Please try again later."}
+            {error}
           </div>
           <button
             onClick={() => window.location.reload()}

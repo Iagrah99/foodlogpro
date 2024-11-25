@@ -13,22 +13,23 @@ const NavigationBar = ({ page }) => {
     navigate("/login");
   };
 
-  const [isLoginPage, setIsLoginPage] = useState(page === "login")
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
+    // Set navbar background for login page immediately
+    // if (location.pathname === "/login" || location.pathname === "/register") {
+    //   setIsScrolled(true);
+    //   return;
+    // }
+
     // Function to handle scroll events
     const handleScroll = () => {
-      // If on the /meals page, change the navbar immediately on scroll
+      // For specific pages like /my-meals
       if (location.pathname === "/my-meals") {
         setIsScrolled(true);
       } else {
-        // For other pages, only trigger scroll styles after a certain threshold
-        if (window.scrollY > 800) {
-          setIsScrolled(true);
-        } else {
-          setIsScrolled(false);
-        }
+        // Apply scrolled styles after threshold for other pages
+        setIsScrolled(window.scrollY > 800);
       }
     };
 
@@ -43,7 +44,8 @@ const NavigationBar = ({ page }) => {
 
   return (
     <nav
-      className={`fixed w-full z-10 transition-all duration-300 ease-in-out ${isScrolled ? 'bg-gray-100 text-gray-900' : 'bg-transparent text-gray-900'}`}
+      className={`fixed w-full z-10 transition-all duration-300 ease-in-out ${isScrolled ? 'bg-gray-100 text-gray-900' : 'bg-transparent text-gray-900'
+        }`}
     >
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
         <a href="/" className="text-indigo-500 text-3xl font-semibold no-underline">
@@ -61,23 +63,25 @@ const NavigationBar = ({ page }) => {
               />
               <a
                 onClick={handleLogout}
-                className={`text-2xl ${isScrolled ? 'text-gray-800' : 'text-gray-200'} ${isLoginPage && 'text-gray-800 hover:text-gray-800'} font-semibold no-underline transition duration-300 opacity-100 py-2 px-6 rounded-lg cursor-pointer`}
+                className={`text-2xl ${isScrolled ? 'text-gray-800' : 'text-gray-200'
+                  } font-semibold no-underline transition duration-300 py-2 px-6 rounded-lg cursor-pointer`}
               >
                 Logout
               </a>
             </div>
-
           ) : (
             <>
               <a
                 href="/login"
-                className={`text-2xl ${isScrolled ? 'text-gray-800' : 'text-gray-200'} ${isLoginPage && 'text-gray-800 hover:text-gray-800'} font-semibold no-underline transition duration-300 opacity-100 py-2 px-6 rounded-lg`}
+                className={`text-2xl ${isScrolled ? 'text-gray-800' : 'text-gray-200'
+                  } font-semibold no-underline transition duration-300 py-2 px-6 rounded-lg`}
               >
                 Login
               </a>
               <a
                 href="/register"
-                className={`text-2xl ${isScrolled ? 'text-gray-800' : 'text-gray-200'} ${isLoginPage && 'text-gray-800 hover:text-gray-800'} font-semibold no-underline transition duration-300 opacity-100 py-2 px-6 rounded-lg`}
+                className={`text-2xl ${isScrolled ? 'text-gray-800' : 'text-gray-200'
+                  } font-semibold no-underline transition duration-300 py-2 px-6 rounded-lg`}
               >
                 Sign Up
               </a>

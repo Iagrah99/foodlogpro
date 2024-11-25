@@ -82,8 +82,22 @@ const Login = () => {
   return (
     <>
       <NavigationBar page="login" />
-      <div className="flex justify-center items-center md:h-[calc(100vh)] h-screen bg-gradient-to-b from-gray-100 to-gray-200">
-        <div className="w-full max-w-md bg-white rounded-lg shadow-lg ring-1 ring-gray-300 p-8">
+      <div
+        className="flex justify-center items-center md:h-[calc(100vh)] h-screen bg-gradient-to-b from-indigo-100 via-gray-100 to-gray-200 relative overflow-hidden"
+      >
+        {/* Decorative background elements */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: 'url(https://i.ibb.co/1mZHftP/bg-login.jpg)', // Replace with a high-quality food-related image
+          }}
+        ></div>
+
+        {/* Optional gradient overlay */}
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+
+        {/* Login Card */}
+        <div className="relative w-full max-w-md bg-white rounded-lg shadow-xl ring-1 ring-gray-300 p-8">
           <h2 className="text-3xl font-semibold text-center text-indigo-600 mb-6">
             Welcome Back!
           </h2>
@@ -187,6 +201,7 @@ const Login = () => {
           </p>
         </div>
       </div>
+
 
     </>
   )

@@ -24,8 +24,9 @@ export const registerUser = async (user) => {
   return res.data;
 };
 
-export const getUserMeals = async (user_id, token) => {
+export const getUserMeals = async (user_id, token, sort_by, order_by) => {
   const res = await weeklyMealsApi.get(`/users/${user_id}/meals`, {
+    params: { sort_by, order_by },
     headers: {
       Authorization: `Bearer ${token}`,
     },
