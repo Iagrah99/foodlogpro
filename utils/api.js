@@ -54,3 +54,10 @@ export const checkEmailExists = async (email, check) => {
   });
   return res.data.msg;
 };
+
+export const removeMeal = async (meal_id, token) => {
+  const res = await weeklyMealsApi.delete(`/meals/${meal_id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
+};

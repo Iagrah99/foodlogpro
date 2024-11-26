@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { getUserMeals } from "../../utils/api";
+import { getUserMeals, removeMeal } from "../../utils/api";
 import NavigationBar from "../components/NavigationBar";
 import Loading from "../components/Loading";
 import AddMeal from "../components/AddMeal";
@@ -13,7 +13,9 @@ const Meals = () => {
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
   const [IsOpen, setIsOpen] = useState(false);
-  const [isUpdated, setIsUpdated] = useState(false)
+  const [isUpdated, setIsUpdated] = useState(false);
+
+  const [isDeleted, setIsDeleted] = useState(false);
 
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
 
@@ -69,7 +71,19 @@ const Meals = () => {
     };
 
     fetchMeals();
-  }, [loggedInUser, navigate, isUpdated]);
+  }, [loggedInUser, navigate, isUpdated, isDeleted]);
+
+  const handleDeleteMeal = async (meal_id) => {
+    console.log(meal_id)
+    const token = JSON.parse(localStorage.getItem("token"));
+    try {
+      await removeMeal(meal_id, token)
+      setIsDeleted(true)
+    } catch (err) {
+      setIsError(true);
+      setError(err.response.data.msg)
+    }
+  }
 
   return (
     <>
@@ -114,12 +128,13 @@ const Meals = () => {
                   <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Ingredients</th>
                   <th className="px-10 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Last Eaten</th>
                   <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Rating</th>
+                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">&nbsp;</th>
                 </tr>
               </thead>
               <tbody>
                 {meals.length === 0 ? (
                   <tr>
-                    <td colSpan="6" className="text-center py-12 text-gray-800">
+                    <td colSpan="7" className="text-center py-12 text-gray-800">
                       No meals to display. Please add some meals to see them here.
                     </td>
                   </tr>
@@ -157,10 +172,19 @@ const Meals = () => {
                           : 'N/A'}
                       </td>
                       <td className="px-2 py-4 whitespace-nowrap text-base text-center font-semibold text-orange-500">{meal.rating}</td>
+                      <td className="px-2 py-4 whitespace-nowrap text-center">
+                        <button
+                          onClick={() => handleDeleteMeal(meal.meal_id)}
+                          className="px-4 py-2 bg-red-500 text-white rounded shadow hover:bg-red-600 transition"
+                        >
+                          Delete
+                        </button>
+                      </td>
                     </tr>
                   ))
                 )}
               </tbody>
+
             </table>
           </div>
         </div>
