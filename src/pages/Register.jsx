@@ -144,7 +144,7 @@ const Register = () => {
     setEmailError(null);
 
     try {
-      await checkEmailExists(email);
+      await checkEmailExists(email, "registration");
       setIsEmailTaken(false); // Email is available
     } catch (err) {
       setIsEmailTaken(true); // Email is taken
@@ -260,6 +260,7 @@ const Register = () => {
               </label>
               <input
                 type={showPassword ? "text" : "password"}
+                autoComplete="new-password"
                 id="password"
                 className="mt-1 block w-full p-2 pr-10 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 placeholder-gray-400"
                 placeholder="Create a password"

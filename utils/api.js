@@ -48,7 +48,9 @@ export const checkUsernameExists = async (username) => {
   return res.data.msg;
 };
 
-export const checkEmailExists = async (email) => {
-  const res = await weeklyMealsApi.get(`/emails/${email}`);
+export const checkEmailExists = async (email, check) => {
+  const res = await weeklyMealsApi.post(`/emails/${email}`, {
+    check,
+  });
   return res.data.msg;
 };

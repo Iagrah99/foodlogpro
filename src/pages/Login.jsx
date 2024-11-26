@@ -1,27 +1,29 @@
-import NavigationBar from "../components/NavigationBar"
-import { Icon } from 'react-icons-kit';
-import { eyeOff } from 'react-icons-kit/feather/eyeOff';
-import { eye } from 'react-icons-kit/feather/eye'
-import { Spinner } from "react-bootstrap"
-import { useState, useEffect, useContext } from "react"
+import NavigationBar from "../components/NavigationBar";
+import { Icon } from "react-icons-kit";
+import { eyeOff } from "react-icons-kit/feather/eyeOff";
+import { eye } from "react-icons-kit/feather/eye";
+import { Spinner } from "react-bootstrap";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../utils/api";
 import { UserContext } from "../contexts/UserContext";
+import ResetPassword from "../components/ResetPassword";
 
 const Login = () => {
-
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [rememberMe, setRememberMe] = useState(false)
-  const [isLoggingIn, setIsLoggingIn] = useState(false)
-  const [isError, setIsError] = useState(false)
-  const [error, setError] = useState(null)
-  const [type, setType] = useState('password');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState(null);
+  const [type, setType] = useState("password");
   const [icon, setIcon] = useState(eyeOff);
 
-  const { loggedInUser, setLoggedInUser } = useContext(UserContext);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { setLoggedInUser } = useContext(UserContext);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
@@ -31,69 +33,43 @@ const Login = () => {
     }
   }, []);
 
-  const handleToggle = () => {
-    if (type === 'password') {
-      setIcon(eye);
-      setType('text')
-    } else {
-      setIcon(eyeOff)
-      setType('password')
-    }
-  }
-
   const handleLogin = async (e) => {
-    setIsError(false)
     e.preventDefault();
+    setIsError(false);
+
     if (rememberMe) {
-      localStorage.setItem("username", username)
+      localStorage.setItem("username", username);
     } else {
-      localStorage.removeItem("username")
+      localStorage.removeItem("username");
     }
+
     try {
-      setIsLoggingIn(true)
-      const userDetails = await loginUser(username, password)
-      setIsLoggingIn(false)
-      setLoggedInUser(userDetails.user)
-      localStorage.setItem('loggedInUser', JSON.stringify(userDetails.user));
-      localStorage.setItem('token', JSON.stringify(userDetails.token));
-      setError(null)
-      navigate('/my-meals')
+      setIsLoggingIn(true);
+      const userDetails = await loginUser(username, password);
+      setIsLoggingIn(false);
+      setLoggedInUser(userDetails.user);
+      localStorage.setItem("loggedInUser", JSON.stringify(userDetails.user));
+      localStorage.setItem("token", JSON.stringify(userDetails.token));
+      setError(null);
+      navigate("/my-meals");
     } catch (err) {
-      setIsError(true)
-      setError(err.response.data.msg)
-      setIsLoggingIn(false)
+      setIsError(true);
+      setError(err.response?.data?.msg || "An error occurred.");
+      setIsLoggingIn(false);
     }
-  }
-
-  const updateLoginInfo = (e) => {
-    if (e.target.id === 'username') {
-      setUsername(e.target.value)
-    } else if (e.target.id === 'password') {
-      setPassword(e.target.value)
-    }
-    setIsError(false)
-  }
-
-  const handleRememberMe = (e) => {
-    setRememberMe(e.target.checked)
-    console.log(e.target.checked)
-  }
+  };
 
   return (
     <>
       <NavigationBar page="login" />
-      <div
-        className="flex justify-center items-center md:h-[calc(100vh)] h-screen bg-gradient-to-b from-indigo-100 via-gray-100 to-gray-200 relative overflow-hidden"
-      >
-        {/* Decorative background elements */}
+      <div className="flex justify-center items-center md:h-[calc(100vh)] h-screen bg-gradient-to-b from-indigo-100 via-gray-100 to-gray-200 relative overflow-hidden">
+        {/* Decorative background */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: 'url(https://i.ibb.co/1mZHftP/bg-login.jpg)', // Replace with a high-quality food-related image
+            backgroundImage: "url(https://i.ibb.co/1mZHftP/bg-login.jpg)",
           }}
         ></div>
-
-        {/* Optional gradient overlay */}
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
         {/* Login Card */}
@@ -105,9 +81,12 @@ const Login = () => {
             Log in to continue tracking your meals.
           </p>
 
-          <form className="space-y-6" onSubmit={(e) => handleLogin(e)}>
+          <form className="space-y-6" onSubmit={handleLogin}>
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Username
               </label>
               <input
@@ -118,15 +97,17 @@ const Login = () => {
                 autoComplete="off"
                 required
                 value={username}
-                onChange={(e) => updateLoginInfo(e)}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
 
             <div className="relative">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
-
               <input
                 type={type}
                 id="password"
@@ -135,12 +116,14 @@ const Login = () => {
                 autoComplete="off"
                 required
                 value={password}
-                onChange={(e) => updateLoginInfo(e)}
+                onChange={(e) => setPassword(e.target.value)}
               />
-
               <span
                 className="absolute inset-y-11 right-0 flex items-center pr-3 cursor-pointer text-gray-600"
-                onClick={handleToggle}
+                onClick={() => {
+                  setType(type === "password" ? "text" : "password");
+                  setIcon(type === "password" ? eye : eyeOff);
+                }}
               >
                 <Icon icon={icon} size={25} />
               </span>
@@ -150,22 +133,26 @@ const Login = () => {
               <div className="flex items-center">
                 <input
                   id="remember_me"
-                  name="remember_me"
                   type="checkbox"
                   className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-500 bg-gray-200 rounded"
                   checked={rememberMe}
-                  onChange={handleRememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
                 />
-                <label htmlFor="remember_me" className="ml-2 block text-sm text-gray-600">
+                <label
+                  htmlFor="remember_me"
+                  className="ml-2 block text-sm text-gray-600"
+                >
                   Remember me
                 </label>
               </div>
 
-              <div className="text-sm">
-                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                  Forgot your password?
-                </a>
-              </div>
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(true)}
+                className="font-medium text-indigo-600 hover:text-indigo-500 text-sm"
+              >
+                Forgot your password?
+              </button>
             </div>
 
             <button
@@ -178,18 +165,12 @@ const Login = () => {
           </form>
 
           {isError && (
-            <div className="mt-4 text-center text-red-500 text-sm">
-              {error}
-            </div>
+            <div className="mt-4 text-center text-red-500 text-sm">{error}</div>
           )}
 
           {isLoggingIn && (
             <div className="flex items-center justify-center mt-3 text-indigo-500">
-              <Spinner
-                animation="border"
-                role="status"
-                style={{ width: '1.25rem', height: '1.25rem' }}
-              />
+              <Spinner animation="border" role="status" />
             </div>
           )}
 
@@ -202,9 +183,12 @@ const Login = () => {
         </div>
       </div>
 
-
+      {/* Reset Password Modal */}
+      {isModalOpen && (
+        <ResetPassword setIsModalOpen={setIsModalOpen} />
+      )}
     </>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

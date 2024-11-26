@@ -112,7 +112,7 @@ const Meals = () => {
                   <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Name</th>
                   <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Source</th>
                   <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Ingredients</th>
-                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Last Eaten</th>
+                  <th className="px-10 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Last Eaten</th>
                   <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Rating</th>
                 </tr>
               </thead>

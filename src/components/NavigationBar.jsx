@@ -22,6 +22,10 @@ const NavigationBar = ({ page }) => {
     //   return;
     // }
 
+    if (location.pathname === "/my-meals") {
+      setIsScrolled(true);
+    }
+
     // Function to handle scroll events
     const handleScroll = () => {
       // For specific pages like /my-meals
@@ -59,7 +63,8 @@ const NavigationBar = ({ page }) => {
               <img
                 src={loggedInUser.avatar}
                 alt="User Avatar"
-                className="h-14 w-14 rounded-full"
+                className="h-14 w-14 rounded-full cursor-pointer"
+                onClick={() => navigate("/my-meals")}
               />
               <a
                 onClick={handleLogout}
