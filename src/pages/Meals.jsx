@@ -6,6 +6,8 @@ import AddMeal from "../components/AddMeal";
 import { UserContext } from "../contexts/UserContext";
 import { format } from 'date-fns'
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Meals = () => {
   const [meals, setMeals] = useState([]);
@@ -74,10 +76,20 @@ const Meals = () => {
   }, [loggedInUser, navigate, isUpdated, isDeleted]);
 
   const handleDeleteMeal = async (meal_id) => {
-    console.log(meal_id)
     const token = JSON.parse(localStorage.getItem("token"));
     try {
       await removeMeal(meal_id, token)
+      setIsDeleted(true)
+    } catch (err) {
+      setIsError(true);
+      setError(err.response.data.msg)
+    }
+  }
+
+  const handleUpdateMeal = async (meal_id) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    try {
+      await UpdateMeal(meal_id, token)
       setIsDeleted(true)
     } catch (err) {
       setIsError(true);
@@ -125,7 +137,7 @@ const Meals = () => {
                   <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Image</th>
                   <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Name</th>
                   <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Source</th>
-                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Ingredients</th>
+                  {/* <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Ingredients</th> */}
                   <th className="px-10 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Last Eaten</th>
                   <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Rating</th>
                   <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">&nbsp;</th>
@@ -154,7 +166,7 @@ const Meals = () => {
                       </td>
                       <td className="px-2 py-4 whitespace-nowrap text-center text-base font-medium text-gray-900">{meal.name}</td>
                       <td className="px-2 py-4 whitespace-nowrap text-center text-base text-gray-700">{meal.source}</td>
-                      <td className="px-2 py-4 text-base text-gray-700">
+                      {/* <td className="px-2 py-4 text-base text-gray-700">
                         <div className="flex flex-wrap gap-2">
                           {meal.ingredients.map((ingredient, index) => (
                             <span
@@ -165,21 +177,35 @@ const Meals = () => {
                             </span>
                           ))}
                         </div>
-                      </td>
+                      </td> */}
                       <td className="px-2 py-4 whitespace-nowrap text-center text-base text-gray-600">
                         {meal.last_eaten
                           ? format(new Date(meal.last_eaten), 'EEEE, dd/MM/yyyy')
                           : 'N/A'}
                       </td>
-                      <td className="px-2 py-4 whitespace-nowrap text-base text-center font-semibold text-orange-500">{meal.rating}</td>
+
+                      <td className="px-2 py-4 whitespace-nowrap text-base text-center font-semibold">
+                        {Array.from({ length: 5 }).map((_, index) => {
+                          const ratingValue = index + 1;
+                          if (meal.rating >= ratingValue) {
+                            return <FontAwesomeIcon key={index} icon={faStar} className="text-yellow-500" />;
+                          } else if (meal.rating >= ratingValue - 0.5) {
+                            return <FontAwesomeIcon key={index} icon={faStarHalfAlt} className="text-yellow-500" />;
+                          } else {
+                            return <FontAwesomeIcon key={index} icon={faStar} className="text-gray-400" />;
+                          }
+                        })}
+                      </td>
+
                       <td className="px-2 py-4 whitespace-nowrap text-center">
                         <button
                           onClick={() => handleDeleteMeal(meal.meal_id)}
-                          className="px-4 py-2 bg-red-500 text-white rounded shadow hover:bg-red-600 transition"
+                          className="px-6 mr-3 py-2 bg-red-500 text-white rounded shadow hover:bg-red-600 transition"
                         >
                           Delete
                         </button>
                       </td>
+
                     </tr>
                   ))
                 )}
