@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { getUserMeals, removeMeal } from "../../utils/api";
+import { getUserMeals, removeMeal, updateMeal } from "../../utils/api";
 import NavigationBar from "../components/NavigationBar";
 import Loading from "../components/Loading";
 import AddMeal from "../components/AddMeal";
@@ -8,6 +8,7 @@ import { format } from 'date-fns'
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
+import MealName from "../components/MealName";
 
 const Meals = () => {
   const [meals, setMeals] = useState([]);
@@ -40,32 +41,33 @@ const Meals = () => {
     };
 
     const fetchMeals = async () => {
-      let elapsedSeconds = 0;
+      // let elapsedSeconds = 0;
       setIsLoading(true);
 
       // Start a timer to track elapsed time
-      const timer = setInterval(() => {
-        elapsedSeconds += 1;
-      }, 1000);
+      // const timer = setInterval(() => {
+      //   elapsedSeconds += 1;
+      // }, 1000);
 
       try {
         const token = JSON.parse(localStorage.getItem('token'));
         const userId = loggedInUser.user_id;
         const mealsFromApi = await getUserMeals(userId, token);
 
-        clearInterval(timer); // Stop the timer once we get a response
+        // clearInterval(timer); // Stop the timer once we get a response
 
         // Calculate remaining delay to reach 1 second, if necessary
-        const remainingDelay = Math.max(0, 1000 - elapsedSeconds * 1000);
+        // const remainingDelay = Math.max(0, 1000 - elapsedSeconds * 1000);
 
         // Apply remaining delay if the request was shorter than 1 second
-        setTimeout(() => {
-          setIsLoading(false);
-        }, remainingDelay);
+        // setTimeout(() => {
+        //   setIsLoading(false);
+        // }, remainingDelay);
 
         setMeals(mealsFromApi);
+        setIsLoading(false);
       } catch (err) {
-        clearInterval(timer); // Stop the timer on error
+        // clearInterval(timer); // Stop the timer on error
         setIsLoading(false);
         setIsError(true);
         setError(err.response?.data?.msg || 'An error occurred');
@@ -86,16 +88,32 @@ const Meals = () => {
     }
   }
 
-  const handleUpdateMeal = async (meal_id) => {
+  const handleUpdateMeal = async (meal_id, updateValue, valueType) => {
+    setIsUpdated(false);
     const token = JSON.parse(localStorage.getItem("token"));
+
+    // Backup original meals for rollback on failure
+    const originalMeals = [...meals];
+
+    // Optimistically update the local state
+    const updatedMeals = meals.map((meal) =>
+      meal.meal_id === meal_id ? { ...meal, [valueType]: updateValue } : meal
+    );
+    setMeals(updatedMeals);
+
     try {
-      await UpdateMeal(meal_id, token)
-      setIsDeleted(true)
+      // Perform the API call
+      await updateMeal(meal_id, updateValue, valueType, token);
+      setIsUpdated(true); // Indicate successful update
     } catch (err) {
+      // On error, revert to the original state
+      setMeals(originalMeals);
       setIsError(true);
-      setError(err.response.data.msg)
+      console.log(err);
+      setError(err.response?.data?.msg || "Failed to update meal");
     }
-  }
+  };
+
 
   return (
     <>
@@ -115,7 +133,7 @@ const Meals = () => {
           </button>
         </div>
       ) : (
-        <div className="p-6 bg-gray-100 min-h-screen py-32">
+        <div className="p-12 bg-gray-100  min-h-screen py-32">
           <div className="flex justify-between items-center mb-6">
             <div className="flex-grow text-center">
               <h2 className="text-2xl font-semibold text-gray-900">My Meals</h2>
@@ -134,7 +152,7 @@ const Meals = () => {
             <table className="min-w-full bg-white border border-gray-200 shadow-lg rounded-lg">
               <thead className="bg-gray-200">
                 <tr>
-                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Image</th>
+                  <th className="pl-20 py-3 text-left text-base font-medium text-gray-600 uppercase tracking-wider">Image</th>
                   <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Name</th>
                   <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Source</th>
                   {/* <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Ingredients</th> */}
@@ -153,7 +171,7 @@ const Meals = () => {
                 ) : (
                   meals.map((meal) => (
                     <tr key={meal.id} className="border-b border-gray-200 hover:bg-gray-100 transition">
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="mx-6 py-1 whitespace-nowrap">
                         {meal.image ? (
                           <img
                             src={meal.image}
@@ -164,7 +182,12 @@ const Meals = () => {
                           <div className="w-16 h-16 bg-gray-300 rounded"></div>
                         )}
                       </td>
-                      <td className="px-2 py-4 whitespace-nowrap text-center text-base font-medium text-gray-900">{meal.name}</td>
+                      <MealName
+                        value={meal.name}
+                        onSave={(newValue) => {
+                          handleUpdateMeal(meal.meal_id, newValue, "name")
+                        }}
+                      />
                       <td className="px-2 py-4 whitespace-nowrap text-center text-base text-gray-700">{meal.source}</td>
                       {/* <td className="px-2 py-4 text-base text-gray-700">
                         <div className="flex flex-wrap gap-2">
