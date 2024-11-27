@@ -55,19 +55,24 @@ const ResetPassword = ({ setIsModalOpen }) => {
             className="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
             placeholder="Enter your email"
           />
-          <button
-            type="submit"
-            className="mt-4 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md shadow"
-          >
-            Send Instructions
-          </button>
-          {isEmailError && (
-            <div className="mt-4 text-center font-semibold text-red-500 text-sm">{emailError}</div>
-          )}
+          <div className="flex justify-between items-center">
+            <div className="mt-4 text-center font-semibold text-sm">
+              {isEmailError ? (
+                <span className="text-red-500">{emailError}</span>
+              ) : isEmailSent ? (
+                <span className="text-green-500">{emailSent}</span>
+              ) : (
+                <span>&nbsp;</span>
+              )}
+            </div>
+            <button
+              type="submit"
+              className="mt-4 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md shadow"
+            >
+              Send Instructions
+            </button>
+          </div>
 
-          {isEmailSent && (
-            <div className="mt-4 text-center font-extrabold text-green-500 text-sm">{emailSent}</div>
-          )}
         </form>
       </div>
     </div>

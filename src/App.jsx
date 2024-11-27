@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Meals from './pages/Meals.jsx';
 import Login from "./pages/Login.jsx"
 import Register from './pages/Register.jsx';
+import FAQ from './pages/FAQ.jsx';
 
 export default function App() {
   const { setLoggedInUser, loggedInUser } = useContext(UserContext);
@@ -29,6 +30,8 @@ export default function App() {
       <Route path='/register' element={<Register />} />
 
       <Route path='/my-meals' element={<Meals />} />
+
+      <Route path='/faq' element={<FAQ />} />
     </Routes>
   );
 }

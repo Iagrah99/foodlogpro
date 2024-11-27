@@ -104,7 +104,7 @@ const Meals = () => {
     try {
       // Perform the API call
       await updateMeal(meal_id, updateValue, valueType, token);
-      setIsUpdated(true); // Indicate successful update
+      // setIsUpdated(true); // Indicate successful update
     } catch (err) {
       // On error, revert to the original state
       setMeals(originalMeals);

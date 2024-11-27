@@ -5,6 +5,7 @@ import { UserContext } from "../contexts/UserContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUtensils, faCalendarAlt, faChartLine, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import '../app.css'
+import Footer from "../components/Footer";
 
 const Home = () => {
 
@@ -112,8 +113,8 @@ const Home = () => {
       <>
         <NavigationBar page="home" />
         <div className="flex flex-col items-center px-0 sm:px-8 lg:px-16 text-gray-900 min-h-screen">
-          <header className="text-center mb-12 min-h-screen min-w-full bg-cover bg-center" style={{ backgroundImage: 'url(https://i.ibb.co/JR2Qm9W/bg-home.png)' }}>
-            <div className="min-h-screen flex flex-col justify-evenly items-center bg-gradient-to-b from-transparent to-black p-8 md:p-12">
+          <header className="text-center mb-12 min-h-screen min-w-full bg-cover bg-center" style={{ backgroundImage: 'url(https://i.ibb.co/fdcMKWc/bg-home.png)' }}>
+            <div className="min-h-screen flex flex-col justify-evenly items-center bg-black bg-opacity-75 p-8 md:p-12">
 
               <div>
                 {/* Heading with fade-in effect */}
@@ -277,6 +278,7 @@ const Home = () => {
               <FontAwesomeIcon icon={faChevronUp} className="text-4xl animate-bounce" />
             </a>
           </div>
+          <Footer />
         </div></>}
     </>
   )

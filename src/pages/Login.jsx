@@ -62,12 +62,12 @@ const Login = () => {
   return (
     <>
       <NavigationBar page="login" />
-      <div className="flex justify-center items-center md:h-[calc(100vh)] h-screen bg-gradient-to-b from-indigo-100 via-gray-100 to-gray-200 relative overflow-hidden">
+      <div className="flex justify-center items-center md:h-[calc(100vh)] h-screen bg-black relative overflow-hidden">
         {/* Decorative background */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url(https://i.ibb.co/1mZHftP/bg-login.jpg)",
+            backgroundImage: "url(https://i.ibb.co/jDQXXK6/login-bg.png)",
           }}
         ></div>
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>

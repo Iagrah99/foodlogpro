@@ -7,8 +7,12 @@ const MealName = ({ value, onSave }) => {
   const spanRef = useRef(null);
 
   const handleSave = () => {
-    setIsEditing(false);
-    onSave(tempValue); // Save the updated value
+    if (tempValue !== value) {  // Only save if the value has changed
+      setIsEditing(false);
+      onSave(tempValue); // Save the updated value
+    } else {
+      setIsEditing(false); // Just stop editing without calling onSave
+    }
   };
 
   const handleKeyDown = (e) => {
