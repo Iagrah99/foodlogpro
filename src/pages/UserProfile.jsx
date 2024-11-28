@@ -1,0 +1,200 @@
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faLock, faCamera } from "@fortawesome/free-solid-svg-icons";
+import NavigationBar from "../components/NavigationBar";
+import { updateUser } from "../../utils/api";
+
+const UserProfile = () => {
+
+  const [currentUser] = useState(JSON.parse(localStorage.getItem("loggedInUser")))
+
+  const [user, setUser] = useState({
+    user_id: currentUser.user_id,
+    username: currentUser.username,
+    password: "",
+    avatar: currentUser.avatar
+  });
+  const [isEditing, setIsEditing] = useState(false);
+  const [updatedUser, setUpdatedUser] = useState({ ...user });
+  const [avatarUrl, setAvatarUrl] = useState('');
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUpdatedUser({ ...updatedUser, [name]: value });
+  };
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUpdatedUser({ ...updatedUser, avatar: reader.result });
+      };
+      reader.readAsDataURL(file);
+
+      handleImageUpload(file);
+    }
+  };
+
+  const handleImageUpload = async (file) => {
+    const apiKey = import.meta.env.VITE_IMGBB_API_KEY;
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+      if (data.success) {
+        console.log('Uploaded image URL:', data.data.url); // Logs the uploaded image URL
+        setAvatarUrl(data.data.url); // Save the uploaded image URL in state
+      } else {
+        console.error('Image upload failed:', data.message); // Handle API errors
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error); // Handle network errors
+    }
+  };
+
+
+  const handleUpdateUser = async () => {
+    try {
+      const token = JSON.parse(localStorage.getItem("token"));
+
+      // Create a payload with only modified fields
+      const payload = {};
+      if (updatedUser.username !== user.username) {
+        payload.username = updatedUser.username;
+      }
+      if (updatedUser.password) { // Include password only if it's provided
+        payload.password = updatedUser.password;
+      }
+      if (avatarUrl && avatarUrl !== user.avatar) { // Use the uploaded avatar URL if available
+        payload.avatar = avatarUrl;
+      }
+
+      if (Object.keys(payload).length === 0) {
+        console.log("No changes detected.");
+        setIsEditing(false);
+        return;
+      }
+
+      console.log("Updating user with payload:", payload);
+      const updatedUserFromApi = await updateUser(user.user_id, payload, token); // Pass only the changes
+      setUser({ ...user, ...updatedUserFromApi });
+      localStorage.setItem("loggedInUser", JSON.stringify({ ...user, ...updatedUserFromApi }));
+      setIsEditing(false);
+    } catch (err) {
+      console.error("Error updating user:", err);
+    }
+  };
+
+
+  return (
+    <>
+      <NavigationBar page="UserProfile" />
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+          <h1 className="text-2xl font-bold mb-6 text-center">User Profile</h1>
+
+          {/* Avatar Section */}
+          <div className="flex flex-col items-center mb-6">
+            <img
+              src={updatedUser.avatar}
+              alt="User Avatar"
+              className="h-48 w-48 rounded-full shadow-lg object-cover"
+            />
+
+            {isEditing && (
+              <div className="mt-2">
+                <label
+                  htmlFor="avatarInput"
+                  className="cursor-pointer text-indigo-500 hover:text-indigo-600 flex items-center space-x-2"
+                >
+                  <FontAwesomeIcon icon={faCamera} />
+                  <span>Change Avatar</span>
+                </label>
+                <input
+                  type="file"
+                  id="avatarInput"
+                  className="hidden"
+                  onChange={handleAvatarChange}
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Username Section */}
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium mb-2">
+              <FontAwesomeIcon icon={faUser} className="mr-2" />
+              Username
+            </label>
+            {isEditing ? (
+              <input
+                type="text"
+                name="username"
+                value={updatedUser.username}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-indigo-300"
+              />
+            ) : (
+              <p className="px-4 py-2 bg-gray-100 rounded-lg">{user.username}</p>
+            )}
+          </div>
+
+          {/* Password Section */}
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium mb-2">
+              <FontAwesomeIcon icon={faLock} className="mr-2" />
+              Password
+            </label>
+            {isEditing ? (
+              <input
+                type="password"
+                name="password"
+                value={updatedUser.password}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-indigo-300"
+                placeholder="Enter new password"
+              />
+            ) : (
+              <p className="px-4 py-2 bg-gray-100 rounded-lg">••••••••</p>
+            )}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex justify-between mt-6">
+            {isEditing ? (
+              <>
+                <button
+                  onClick={handleUpdateUser}
+                  className="bg-indigo-500 text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-600 transition"
+                >
+                  Save
+                </button>
+                <button
+                  onClick={() => setIsEditing(false)}
+                  className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg shadow hover:bg-gray-400 transition"
+                >
+                  Cancel
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => setIsEditing(true)}
+                className="bg-indigo-500 text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-600 transition w-full"
+              >
+                Edit Profile
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default UserProfile;

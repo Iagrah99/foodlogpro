@@ -75,3 +75,15 @@ export const updateMeal = async (meal_id, updateValue, updateType, token) => {
 
   return res.data.meal;
 };
+
+export const updateUser = async (user_id, user, token) => {
+  const res = await weeklyMealsApi.patch(
+    `/users/${user_id}`,
+    { user },
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+
+  return res.data.user;
+};

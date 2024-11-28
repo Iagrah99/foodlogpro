@@ -78,6 +78,7 @@ const Meals = () => {
   }, [loggedInUser, navigate, isUpdated, isDeleted]);
 
   const handleDeleteMeal = async (meal_id) => {
+    setIsDeleted(false)
     const token = JSON.parse(localStorage.getItem("token"));
     try {
       await removeMeal(meal_id, token)
@@ -104,7 +105,7 @@ const Meals = () => {
     try {
       // Perform the API call
       await updateMeal(meal_id, updateValue, valueType, token);
-      // setIsUpdated(true); // Indicate successful update
+      setIsUpdated(true); // Indicate successful update
     } catch (err) {
       // On error, revert to the original state
       setMeals(originalMeals);

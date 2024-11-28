@@ -39,10 +39,7 @@ const Register = () => {
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
 
   useEffect(() => {
-    const bootUpApi = async () => {
-      await loadApi();
-    }
-    bootUpApi();
+    if (loggedInUser) navigate('/my-meals')
   }, [])
 
   useEffect(() => {

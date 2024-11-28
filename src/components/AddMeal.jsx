@@ -77,7 +77,6 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
     }
   };
 
-
   // Reset error message when inputs change
   const handleInputChange = (setter) => (e) => {
     setIsError(false); // Hide error when input changes
@@ -164,7 +163,6 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
                 setIsError(false);
                 if (file) {
                   handleImageUpload(file);
-                  console.log(imageUrl);
                 }
               }}
             />

@@ -6,6 +6,7 @@ import Meals from './pages/Meals.jsx';
 import Login from "./pages/Login.jsx"
 import Register from './pages/Register.jsx';
 import FAQ from './pages/FAQ.jsx';
+import UserProfile from './pages/UserProfile.jsx';
 
 export default function App() {
   const { setLoggedInUser, loggedInUser } = useContext(UserContext);
@@ -32,6 +33,8 @@ export default function App() {
       <Route path='/my-meals' element={<Meals />} />
 
       <Route path='/faq' element={<FAQ />} />
+
+      <Route path='/my-profile' element={<UserProfile />} />
     </Routes>
   );
 }

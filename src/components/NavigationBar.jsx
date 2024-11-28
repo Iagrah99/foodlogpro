@@ -16,7 +16,7 @@ const NavigationBar = ({ page }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    if (location.pathname === "/my-meals") {
+    if (location.pathname === "/my-meals" || location.pathname === "/my-profile") {
       setIsScrolled(true);
     }
 
@@ -51,8 +51,8 @@ const NavigationBar = ({ page }) => {
               <img
                 src={loggedInUser.avatar}
                 alt="User Avatar"
-                className="h-14 w-14 rounded-full cursor-pointer"
-                onClick={() => navigate("/my-meals")}
+                className="h-14 w-14 rounded-full cursor-pointer object-cover"
+                onClick={() => navigate('/my-profile')}
               />
               <a
                 onClick={handleLogout}
