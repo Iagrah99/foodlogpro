@@ -5,10 +5,11 @@ import Loading from "../components/Loading";
 import AddMeal from "../components/AddMeal";
 import { UserContext } from "../contexts/UserContext";
 import { format } from 'date-fns'
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import MealName from "../components/MealName";
+import DeleteMealModal from "../components/DeleteMealModal";
 
 const Meals = () => {
   const [meals, setMeals] = useState([]);
@@ -18,11 +19,12 @@ const Meals = () => {
   const [IsOpen, setIsOpen] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
 
+  const [selectedMealId, setSelectedMealId] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [isDeleted, setIsDeleted] = useState(false);
 
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
-
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const navigate = useNavigate();
 
@@ -77,6 +79,12 @@ const Meals = () => {
     fetchMeals();
   }, [loggedInUser, navigate, isUpdated, isDeleted]);
 
+  const toggleModal = (meal_id = null) => {
+    setSelectedMealId(meal_id);
+    setIsModalOpen(!isModalOpen);
+  };
+
+
   const handleDeleteMeal = async (meal_id) => {
     setIsDeleted(false)
     const token = JSON.parse(localStorage.getItem("token"));
@@ -114,7 +122,6 @@ const Meals = () => {
       setError(err.response?.data?.msg || "Failed to update meal");
     }
   };
-
 
   return (
     <>
@@ -223,11 +230,12 @@ const Meals = () => {
 
                       <td className="px-2 py-4 whitespace-nowrap text-center">
                         <button
-                          onClick={() => handleDeleteMeal(meal.meal_id)}
+                          onClick={() => toggleModal(meal.meal_id)}
                           className="px-6 mr-3 py-2 bg-red-500 text-white rounded shadow hover:bg-red-600 transition"
                         >
                           Delete
                         </button>
+
                       </td>
 
                     </tr>
@@ -237,6 +245,15 @@ const Meals = () => {
 
             </table>
           </div>
+
+          {isModalOpen && (
+            <DeleteMealModal
+              toggleModal={toggleModal}
+              handleDeleteMeal={handleDeleteMeal}
+              mealId={selectedMealId}
+            />
+          )}
+
         </div>
       )}
     </>

@@ -7,6 +7,7 @@ import { updateUser } from "../../utils/api";
 
 const UserProfile = () => {
   const [currentUser] = useState(JSON.parse(localStorage.getItem("loggedInUser")));
+  const [avatarUpdated, setAvatarUpdated] = useState(false);
 
   const [user, setUser] = useState({
     user_id: currentUser.user_id,
@@ -92,6 +93,7 @@ const UserProfile = () => {
         "loggedInUser",
         JSON.stringify({ ...user, ...updatedUserFromApi })
       );
+      setAvatarUpdated(true); // Toggle the state to trigger a re-render
       setIsEditing(false);
     } catch (err) {
       console.error("Error updating user:", err);
@@ -100,7 +102,7 @@ const UserProfile = () => {
 
   return (
     <>
-      <NavigationBar page="UserProfile" />
+      <NavigationBar avatarUpdated={avatarUpdated} setAvatarUpdated={setAvatarUpdated} />
       <div className="flex justify-center items-center min-h-screen pt-28 bg-gray-100">
         <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg mt-10">
           <h1 className="text-2xl font-bold mb-6 text-center">User Profile</h1>
@@ -184,13 +186,13 @@ const UserProfile = () => {
                   disabled={isSaving} // Disable when loading
                 >
                   {isSaving ?
-                    <div className="flex justify-between w-20 items-center">
+                    <div className="flex justify-between w-40 items-center">
                       <Spinner animation="border" role="status"
                         style={{ width: '1rem', height: '1rem' }}
                       />
-                      {"Saving... "}
+                      {"Uploading Image... "}
                     </div>
-                    : "Save"}
+                    : "Save Changes"}
                 </button>
                 <button
                   onClick={() => setIsEditing(false)}
@@ -210,7 +212,6 @@ const UserProfile = () => {
           </div>
         </div>
       </div>
-
 
     </>
   );

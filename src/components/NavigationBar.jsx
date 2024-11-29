@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import LogoutModal from "./LogoutModal";
 
-const NavigationBar = ({ page }) => {
+const NavigationBar = ({ avatarUpdated, setAvatarUpdated }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
@@ -20,6 +20,15 @@ const NavigationBar = ({ page }) => {
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen); // Toggle modal visibility
   };
+
+  useEffect(() => {
+    if (avatarUpdated) {
+      const updatedUser = JSON.parse(localStorage.getItem("loggedInUser"));
+      setLoggedInUser(updatedUser);
+      setAvatarUpdated(false)
+    }
+  }, [avatarUpdated, setLoggedInUser]);
+
 
   useEffect(() => {
     if (location.pathname === "/my-meals" || location.pathname === "/my-profile") {
