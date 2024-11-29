@@ -1,22 +1,23 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Spinner } from "react-bootstrap";
 import { faUser, faLock, faCamera } from "@fortawesome/free-solid-svg-icons";
 import NavigationBar from "../components/NavigationBar";
 import { updateUser } from "../../utils/api";
 
 const UserProfile = () => {
-
-  const [currentUser] = useState(JSON.parse(localStorage.getItem("loggedInUser")))
+  const [currentUser] = useState(JSON.parse(localStorage.getItem("loggedInUser")));
 
   const [user, setUser] = useState({
     user_id: currentUser.user_id,
     username: currentUser.username,
     password: "",
-    avatar: currentUser.avatar
+    avatar: currentUser.avatar,
   });
   const [isEditing, setIsEditing] = useState(false);
   const [updatedUser, setUpdatedUser] = useState({ ...user });
-  const [avatarUrl, setAvatarUrl] = useState('');
+  const [avatarUrl, setAvatarUrl] = useState("");
+  const [isSaving, setIsSaving] = useState(false); // New state for saving/loading
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -37,27 +38,30 @@ const UserProfile = () => {
   };
 
   const handleImageUpload = async (file) => {
+    setIsSaving(true); // Start showing the spinner
     const apiKey = import.meta.env.VITE_IMGBB_API_KEY;
     const formData = new FormData();
-    formData.append('image', file);
+    formData.append("image", file);
 
     try {
       const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
-        method: 'POST',
+        method: "POST",
         body: formData,
       });
       const data = await response.json();
       if (data.success) {
-        console.log('Uploaded image URL:', data.data.url); // Logs the uploaded image URL
+        console.log("Uploaded image URL:", data.data.url); // Logs the uploaded image URL
         setAvatarUrl(data.data.url); // Save the uploaded image URL in state
       } else {
-        console.error('Image upload failed:', data.message); // Handle API errors
+        console.error("Image upload failed:", data.message); // Handle API errors
       }
     } catch (error) {
-      console.error('Error uploading image:', error); // Handle network errors
+      console.error("Error uploading image:", error); // Handle network errors
+    } finally {
+      // Re-enable the button after 3 seconds
+      setTimeout(() => setIsSaving(false), 3000);
     }
   };
-
 
   const handleUpdateUser = async () => {
     try {
@@ -68,35 +72,37 @@ const UserProfile = () => {
       if (updatedUser.username !== user.username) {
         payload.username = updatedUser.username;
       }
-      if (updatedUser.password) { // Include password only if it's provided
+      if (updatedUser.password) {
+        // Include password only if it's provided
         payload.password = updatedUser.password;
       }
-      if (avatarUrl && avatarUrl !== user.avatar) { // Use the uploaded avatar URL if available
+      if (avatarUrl && avatarUrl !== user.avatar) {
+        // Use the uploaded avatar URL if available
         payload.avatar = avatarUrl;
       }
 
       if (Object.keys(payload).length === 0) {
-        console.log("No changes detected.");
         setIsEditing(false);
         return;
       }
 
-      console.log("Updating user with payload:", payload);
       const updatedUserFromApi = await updateUser(user.user_id, payload, token); // Pass only the changes
       setUser({ ...user, ...updatedUserFromApi });
-      localStorage.setItem("loggedInUser", JSON.stringify({ ...user, ...updatedUserFromApi }));
+      localStorage.setItem(
+        "loggedInUser",
+        JSON.stringify({ ...user, ...updatedUserFromApi })
+      );
       setIsEditing(false);
     } catch (err) {
       console.error("Error updating user:", err);
     }
   };
 
-
   return (
     <>
       <NavigationBar page="UserProfile" />
-      <div className="flex justify-center items-center min-h-screen bg-gray-100">
-        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+      <div className="flex justify-center items-center min-h-screen pt-28 bg-gray-100">
+        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg mt-10">
           <h1 className="text-2xl font-bold mb-6 text-center">User Profile</h1>
 
           {/* Avatar Section */}
@@ -171,9 +177,20 @@ const UserProfile = () => {
               <>
                 <button
                   onClick={handleUpdateUser}
-                  className="bg-indigo-500 text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-600 transition"
+                  className={`px-4 py-2 rounded-lg shadow text-white transition ${isSaving
+                    ? "bg-indigo-500 cursor-not-allowed"
+                    : "bg-indigo-500 hover:bg-indigo-600"
+                    }`}
+                  disabled={isSaving} // Disable when loading
                 >
-                  Save
+                  {isSaving ?
+                    <div className="flex justify-between w-20 items-center">
+                      <Spinner animation="border" role="status"
+                        style={{ width: '1rem', height: '1rem' }}
+                      />
+                      {"Saving... "}
+                    </div>
+                    : "Save"}
                 </button>
                 <button
                   onClick={() => setIsEditing(false)}
@@ -193,6 +210,8 @@ const UserProfile = () => {
           </div>
         </div>
       </div>
+
+
     </>
   );
 };
