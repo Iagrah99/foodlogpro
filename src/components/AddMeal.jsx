@@ -207,7 +207,7 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
                   setImageFile(file);
                   setIsError(false);
                   if (file) {
-                    handleImageUpload(file); // Start image upload
+                    handleImageUpload(file);
                   }
                 }}
               />
