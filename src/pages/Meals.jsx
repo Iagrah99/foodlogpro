@@ -11,6 +11,7 @@ import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import MealName from "../components/MealName";
 import DeleteMealModal from "../components/DeleteMealModal";
 import MealSource from "../components/MealSource";
+import MealImage from "../components/MealImage";
 
 const Meals = () => {
   const [meals, setMeals] = useState([]);
@@ -30,12 +31,13 @@ const Meals = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setIsUpdated(false)
+    // Skip fetching meals if there's no loggedInUser
     if (!loggedInUser) {
       navigate('/login');
       return; // Exit if no user is logged in
     }
 
+    // Handle invalid token error and log out the user
     if (error && error === "Forbidden: Invalid token") {
       setLoggedInUser(null);
       localStorage.removeItem('loggedInUser');
@@ -44,33 +46,16 @@ const Meals = () => {
     };
 
     const fetchMeals = async () => {
-      // let elapsedSeconds = 0;
       setIsLoading(true);
-
-      // Start a timer to track elapsed time
-      // const timer = setInterval(() => {
-      //   elapsedSeconds += 1;
-      // }, 1000);
 
       try {
         const token = JSON.parse(localStorage.getItem('token'));
         const userId = loggedInUser.user_id;
         const mealsFromApi = await getUserMeals(userId, token);
 
-        // clearInterval(timer); // Stop the timer once we get a response
-
-        // Calculate remaining delay to reach 1 second, if necessary
-        // const remainingDelay = Math.max(0, 1000 - elapsedSeconds * 1000);
-
-        // Apply remaining delay if the request was shorter than 1 second
-        // setTimeout(() => {
-        //   setIsLoading(false);
-        // }, remainingDelay);
-
         setMeals(mealsFromApi);
         setIsLoading(false);
       } catch (err) {
-        // clearInterval(timer); // Stop the timer on error
         setIsLoading(false);
         setIsError(true);
         setError(err.response?.data?.msg || 'An error occurred');
@@ -78,7 +63,8 @@ const Meals = () => {
     };
 
     fetchMeals();
-  }, [loggedInUser, navigate, isUpdated, isDeleted]);
+  }, [loggedInUser, navigate, error, isDeleted, isUpdated]); // Removed isUpdated and isDeleted
+
 
   const toggleModal = (meal_id = null) => {
     setSelectedMealId(meal_id);
@@ -182,11 +168,13 @@ const Meals = () => {
                     <tr key={meal.id} className="border-b border-gray-200 hover:bg-gray-100 transition">
                       <td className="mx-6 py-1 whitespace-nowrap">
                         {meal.image ? (
-                          <img
-                            src={meal.image}
-                            alt={meal.name}
-                            className="w-48 h-48 object-cover rounded"
+                          <MealImage
+                            value={meal.image} // Pass the current image URL as the initial value
+                            onSave={(newImageUrl) => {
+                              handleUpdateMeal(meal.meal_id, newImageUrl, "image");  // Update the meal with the new image URL
+                            }}
                           />
+
                         ) : (
                           <div className="w-16 h-16 bg-gray-300 rounded"></div>
                         )}
