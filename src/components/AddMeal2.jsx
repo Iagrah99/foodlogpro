@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { addMeal } from '../../utils/api';
 import { Spinner } from 'react-bootstrap';
 import { format } from 'date-fns';
@@ -12,7 +12,7 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
   const [ingredientsStr, setIngredientsStr] = useState('');
   const [lastEaten, setLastEaten] = useState(() => {
     const today = new Date();
-    return today.toISOString().split('T')[0];
+    return today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
   });
   const [rating, setRating] = useState(1);
   const [imageFile, setImageFile] = useState(null);
@@ -23,21 +23,8 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
   const [isImageUploading, setIsImageUploading] = useState(false);
   const [timer, setTimer] = useState(null);
 
-  const modalRef = useRef(null); // Reference for the modal container
-
   useEffect(() => {
     setIsVisible(true);
-
-    const handleEscape = (event) => {
-      if (event.key === 'Escape') {
-        handleClose(); // Trigger close on ESC key
-      }
-    };
-
-    document.addEventListener('keydown', handleEscape); // Listen for keydown events
-    return () => {
-      document.removeEventListener('keydown', handleEscape); // Cleanup listener
-    };
   }, []);
 
   const handleClose = () => {
@@ -45,26 +32,11 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
     setTimeout(() => setIsOpen(false), 300);
   };
 
-  const handleClickOutside = (event) => {
-    if (modalRef.current && !modalRef.current.contains(event.target)) {
-      handleClose(); // Close modal if the click is outside the modal
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside); // Listen for clicks
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside); // Cleanup listener
-    };
-  }, []);
-
   const handleImageUpload = async (file) => {
-    setIsImageUploading(true);
-    setTimer(
-      setTimeout(() => {
-        setIsImageUploading(false);
-      }, 5000)
-    );
+    setIsImageUploading(true); // Start the image uploading process
+    setTimer(setTimeout(() => {
+      setIsImageUploading(false); // Disable uploading after 5 seconds
+    }, 5000)); // Set timer for 5 seconds
 
     const apiKey = import.meta.env.VITE_IMGBB_API_KEY;
     const formData = new FormData();
@@ -99,14 +71,14 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
         last_eaten: format(new Date(lastEaten), 'yyyy/MM/dd'),
         rating,
         image: imageUrl,
-        created_by: loggedInUser.username,
+        created_by: loggedInUser.username
       };
 
-      setIsLoading(true);
+      setIsLoading(true); // Start loading
       await addMeal({ meal }, token);
       setIsUpdated(true);
       setIsLoading(false);
-      handleClose();
+      handleClose(); // Close the component
     } catch (err) {
       setIsLoading(false);
       setIsError(true);
@@ -115,10 +87,11 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
   };
 
   const handleInputChange = (setter) => (e) => {
-    setIsError(false);
+    setIsError(false); // Hide error when input changes
     setter(e.target.value);
   };
 
+  // Check if form is valid
   const isFormValid = () => {
     return name.trim() !== '' && source.trim() !== '' && rating !== '' && !isImageUploading;
   };
@@ -130,7 +103,6 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
     transition-opacity duration-500`}
     >
       <div
-        ref={modalRef} // Attach the ref to the modal container
         className={`bg-white rounded-lg shadow-lg w-96 p-6 transform transition-transform duration-300 
       ${isVisible ? 'scale-100 translate-y-0' : 'scale-90 translate-y-4'}`}
       >
@@ -250,9 +222,11 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
               </>
             )}
           </button>
+
         </div>
       </div>
     </div>
+
   );
 };
 
