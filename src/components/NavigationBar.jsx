@@ -14,8 +14,9 @@ const NavigationBar = ({ avatarUpdated, setAvatarUpdated }) => {
   const handleLogout = () => {
     setLoggedInUser(null);
     localStorage.removeItem("loggedInUser");
-    navigate("/login");
+    navigate("/login", { state: { message: "You have been logged out successfully." } });
   };
+
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen); // Toggle modal visibility

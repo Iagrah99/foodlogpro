@@ -4,13 +4,28 @@ import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
 import { Spinner } from "react-bootstrap";
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { loginUser } from "../../utils/api";
 import { UserContext } from "../contexts/UserContext";
 import ResetPassword from "../components/ResetPassword";
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const location = useLocation();
+
+  const [message, setMessage] = useState(location.state?.message || ""); // Initialize with the passed message
+
+  // Set up a timer to remove the message after 3 seconds
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage(""); // Clear the message after 3 seconds
+      }, 3000);
+
+      return () => clearTimeout(timer); // Cleanup the timer on component unmount
+    }
+  }, [message]); // Only rerun this effect when `message` changes
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -166,6 +181,10 @@ const Login = () => {
 
           {isError && (
             <div className="mt-4 text-center text-red-500 text-sm">{error}</div>
+          )}
+
+          {message && (
+            <div className="mt-4 text-center text-green-500 text-sm font-semibold">{message}</div>
           )}
 
           {isLoggingIn && (

@@ -37,9 +37,12 @@ const Register = () => {
   const [usernameError, setUsernameError] = useState(null);
 
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
+  const [currentUser] = useState(JSON.parse(localStorage.getItem("loggedInUser")))
 
   useEffect(() => {
-    if (loggedInUser) navigate('/my-meals')
+    if (currentUser?.username) {
+      navigate('/my-meals')
+    }
   }, [])
 
   useEffect(() => {
