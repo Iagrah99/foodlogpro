@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Spinner } from "react-bootstrap";
 import { faUser, faLock, faCamera } from "@fortawesome/free-solid-svg-icons";
@@ -7,28 +6,8 @@ import NavigationBar from "../components/NavigationBar";
 import { updateUser } from "../../utils/api";
 
 const UserProfile = () => {
-  const navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser] = useState(JSON.parse(localStorage.getItem("loggedInUser")));
   const [avatarUpdated, setAvatarUpdated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Add loading state to prevent rendering until check is done
-
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("loggedInUser"));
-    if (!user) {
-      navigate("/login");
-    } else {
-      setCurrentUser(user); // Set the user if found
-    }
-    setIsLoading(false); // Set loading to false once check is done
-  }, [navigate]);
-
-  if (isLoading) {
-    return <div>Loading...</div>; // Prevent rendering sensitive parts until the user check is complete
-  }
-
-  if (!currentUser) {
-    return null; // Prevent rendering if user is not logged in
-  }
 
   const [user, setUser] = useState({
     user_id: currentUser.user_id,
@@ -39,7 +18,7 @@ const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [updatedUser, setUpdatedUser] = useState({ ...user });
   const [avatarUrl, setAvatarUrl] = useState("");
-  const [isSaving, setIsSaving] = useState(false);
+  const [isSaving, setIsSaving] = useState(false); // New state for saving/loading
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -60,7 +39,7 @@ const UserProfile = () => {
   };
 
   const handleImageUpload = async (file) => {
-    setIsSaving(true);
+    setIsSaving(true); // Start showing the spinner
     const apiKey = import.meta.env.VITE_IMGBB_API_KEY;
     const formData = new FormData();
     formData.append("image", file);
@@ -72,30 +51,34 @@ const UserProfile = () => {
       });
       const data = await response.json();
       if (data.success) {
-        console.log("Uploaded image URL:", data.data.url);
-        setAvatarUrl(data.data.url);
+        console.log("Uploaded image URL:", data.data.url); // Logs the uploaded image URL
+        setAvatarUrl(data.data.url); // Save the uploaded image URL in state
       } else {
-        console.error("Image upload failed:", data.message);
+        console.error("Image upload failed:", data.message); // Handle API errors
       }
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.error("Error uploading image:", error); // Handle network errors
     } finally {
-      setIsSaving(false);
+      // Re-enable the button after 3 seconds
+      setTimeout(() => setIsSaving(false), 3000);
     }
   };
 
   const handleUpdateUser = async () => {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
-      const payload = {};
 
+      // Create a payload with only modified fields
+      const payload = {};
       if (updatedUser.username !== user.username) {
         payload.username = updatedUser.username;
       }
       if (updatedUser.password) {
+        // Include password only if it's provided
         payload.password = updatedUser.password;
       }
       if (avatarUrl && avatarUrl !== user.avatar) {
+        // Use the uploaded avatar URL if available
         payload.avatar = avatarUrl;
       }
 
@@ -104,13 +87,13 @@ const UserProfile = () => {
         return;
       }
 
-      const updatedUserFromApi = await updateUser(user.user_id, payload, token);
+      const updatedUserFromApi = await updateUser(user.user_id, payload, token); // Pass only the changes
       setUser({ ...user, ...updatedUserFromApi });
       localStorage.setItem(
         "loggedInUser",
         JSON.stringify({ ...user, ...updatedUserFromApi })
       );
-      setAvatarUpdated(true);
+      setAvatarUpdated(true); // Toggle the state to trigger a re-render
       setIsEditing(false);
     } catch (err) {
       console.error("Error updating user:", err);

@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import MealName from "../components/MealName";
 import DeleteMealModal from "../components/DeleteMealModal";
+import MealSource from "../components/MealSource";
 
 const Meals = () => {
   const [meals, setMeals] = useState([]);
@@ -196,7 +197,12 @@ const Meals = () => {
                           handleUpdateMeal(meal.meal_id, newValue, "name")
                         }}
                       />
-                      <td className="px-2 py-4 whitespace-nowrap text-center text-base text-gray-700">{meal.source}</td>
+                      <MealSource
+                        value={meal.source}
+                        onSave={(newValue) => {
+                          handleUpdateMeal(meal.meal_id, newValue, "source")
+                        }}
+                      />
                       {/* <td className="px-2 py-4 text-base text-gray-700">
                         <div className="flex flex-wrap gap-2">
                           {meal.ingredients.map((ingredient, index) => (
