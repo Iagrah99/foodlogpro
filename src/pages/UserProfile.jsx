@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Spinner } from "react-bootstrap";
-import { faUser, faLock, faCamera } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faLock, faCamera, faCrown } from "@fortawesome/free-solid-svg-icons";
 import NavigationBar from "../components/NavigationBar";
 import { updateUser } from "../../utils/api";
+import { format } from "date-fns";
 
 const UserProfile = () => {
   const [currentUser] = useState(JSON.parse(localStorage.getItem("loggedInUser")));
@@ -19,6 +20,7 @@ const UserProfile = () => {
   const [updatedUser, setUpdatedUser] = useState({ ...user });
   const [avatarUrl, setAvatarUrl] = useState("");
   const [isSaving, setIsSaving] = useState(false); // New state for saving/loading
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -108,12 +110,19 @@ const UserProfile = () => {
           <h1 className="text-2xl font-bold mb-6 text-center">User Profile</h1>
 
           {/* Avatar Section */}
-          <div className="flex flex-col items-center mb-6">
+          <div className="flex flex-col items-center mb-6 relative">
             <img
               src={updatedUser.avatar}
               alt="User Avatar"
-              className="h-48 w-48 rounded-full shadow-lg object-cover"
+              className={`h-48 w-48 rounded-full shadow-lg object-cover transition-opacity ${isSaving ? "opacity-50" : "opacity-100"}`}
             />
+
+            {isSaving && (
+              <div className="absolute h-48 w-48 rounded-full flex flex-col justify-center items-center bg-black bg-opacity-50 text-white">
+                <Spinner animation="border" role="status" style={{ width: '2rem', height: '2rem' }} />
+                <span className="mt-2">Uploading...</span>
+              </div>
+            )}
 
             {isEditing && (
               <div className="mt-2">
@@ -134,6 +143,8 @@ const UserProfile = () => {
             )}
           </div>
 
+
+
           {/* Username Section */}
           <div className="mb-4">
             <label className="block text-gray-700 font-medium mb-2">
@@ -152,6 +163,8 @@ const UserProfile = () => {
               <p className="px-4 py-2 bg-gray-100 rounded-lg">{user.username}</p>
             )}
           </div>
+
+
 
           {/* Password Section */}
           <div className="mb-4">
@@ -173,6 +186,17 @@ const UserProfile = () => {
             )}
           </div>
 
+          {/* Member Since Section */}
+          {isEditing ? "" : (<div className="mb-4">
+            <label className="block text-gray-700 font-medium mb-2">
+              <FontAwesomeIcon icon={faCrown} className="mr-2" />
+              Member Since
+            </label>
+            <p className="px-4 py-2 bg-gray-100 rounded-lg">
+              {format(new Date(currentUser.date_joined), 'd MMMM yyyy')}
+            </p>
+          </div>)}
+
           {/* Action Buttons */}
           <div className="flex justify-between mt-6">
             {isEditing ? (
@@ -185,17 +209,10 @@ const UserProfile = () => {
                     }`}
                   disabled={isSaving} // Disable when loading
                 >
-                  {isSaving ?
-                    <div className="flex justify-between w-40 items-center">
-                      <Spinner animation="border" role="status"
-                        style={{ width: '1rem', height: '1rem' }}
-                      />
-                      {"Uploading Image... "}
-                    </div>
-                    : "Save Changes"}
+                  Save Changes
                 </button>
                 <button
-                  onClick={() => setIsEditing(false)}
+                  onClick={() => { setIsEditing(false); setUpdatedUser(user) }}
                   className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg shadow hover:bg-gray-400 transition"
                 >
                   Cancel
