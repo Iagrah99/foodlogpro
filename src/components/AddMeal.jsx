@@ -27,13 +27,11 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
 
   useEffect(() => {
     setIsVisible(true);
-
     const handleEscape = (event) => {
       if (event.key === 'Escape') {
         handleClose(); // Trigger close on ESC key
       }
     };
-
     document.addEventListener('keydown', handleEscape); // Listen for keydown events
     return () => {
       document.removeEventListener('keydown', handleEscape); // Cleanup listener
@@ -87,6 +85,7 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
   };
 
   const handleAddMeal = async () => {
+    console.log(lastEaten)
     const token = JSON.parse(localStorage.getItem('token'));
     const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
 

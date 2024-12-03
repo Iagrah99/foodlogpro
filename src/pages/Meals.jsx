@@ -4,7 +4,6 @@ import NavigationBar from "../components/NavigationBar";
 import Loading from "../components/Loading";
 import AddMeal from "../components/AddMeal";
 import { UserContext } from "../contexts/UserContext";
-import { format } from 'date-fns'
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +11,7 @@ import MealName from "../components/MealName";
 import DeleteMealModal from "../components/DeleteMealModal";
 import MealSource from "../components/MealSource";
 import MealImage from "../components/MealImage";
+import MealLastEaten from "../components/MealLastEaten"
 
 const Meals = () => {
   const [meals, setMeals] = useState([]);
@@ -100,12 +100,12 @@ const Meals = () => {
     try {
       // Perform the API call
       await updateMeal(meal_id, updateValue, valueType, token);
+      console.log(token)
       setIsUpdated(true); // Indicate successful update
     } catch (err) {
       // On error, revert to the original state
       setMeals(originalMeals);
       setIsError(true);
-      console.log(err);
       setError(err.response?.data?.msg || "Failed to update meal");
     }
   };
@@ -151,7 +151,9 @@ const Meals = () => {
                   <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Name</th>
                   <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Source</th>
                   {/* <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Ingredients</th> */}
-                  <th className="px-10 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Last Eaten</th>
+                  <th className="px-10 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider" style={{ minWidth: '200px' }}>
+                    Last Eaten
+                  </th>
                   <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Rating</th>
                   <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">&nbsp;</th>
                 </tr>
@@ -203,10 +205,11 @@ const Meals = () => {
                           ))}
                         </div>
                       </td> */}
-                      <td className="px-2 py-4 whitespace-nowrap text-center text-base text-gray-600">
-                        {meal.last_eaten
-                          ? format(new Date(meal.last_eaten), 'EEEE, dd/MM/yyyy')
-                          : 'N/A'}
+                      <td className="px-2 py-4 whitespace-nowrap text-center text-base text-gray-600" style={{ minWidth: '200px' }}>
+                        <MealLastEaten
+                          value={meal.last_eaten}
+                          onSave={(newDate) => handleUpdateMeal(meal.meal_id, newDate, "last_eaten")}
+                        />
                       </td>
 
                       <td className="px-2 py-4 whitespace-nowrap text-base text-center font-semibold">
