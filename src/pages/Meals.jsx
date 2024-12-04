@@ -52,7 +52,7 @@ const Meals = () => {
         const token = JSON.parse(localStorage.getItem('token'));
         const userId = loggedInUser.user_id;
         const mealsFromApi = await getUserMeals(userId, token);
-
+        localStorage.setItem("userMealsNum", JSON.stringify(mealsFromApi.length))
         setMeals(mealsFromApi);
         setIsLoading(false);
       } catch (err) {
@@ -64,6 +64,23 @@ const Meals = () => {
 
     fetchMeals();
   }, [loggedInUser, navigate, error, isDeleted, isUpdated]); // Removed isUpdated and isDeleted
+
+  useEffect(() => {
+    if (meals.length > 0) {
+      const mealCounts = meals.reduce((acc, meal) => {
+        acc[meal.name] = (acc[meal.name] || 0) + 1;
+        return acc;
+      }, {});
+
+      const mostFrequent = Object.keys(mealCounts).reduce((a, b) =>
+        mealCounts[a] > mealCounts[b] ? a : b
+      );
+
+      localStorage.setItem("mostFrequentMeal", mostFrequent);
+
+      console.log(mostFrequent)
+    }
+  }, [meals]);
 
 
   const toggleModal = (meal_id = null) => {

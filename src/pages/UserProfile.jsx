@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Spinner } from "react-bootstrap";
-import { faUser, faLock, faCamera, faCrown } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faLock, faCamera, faCrown, faChartBar, faStar, faUtensils, faDrumstickBite } from "@fortawesome/free-solid-svg-icons";
 import NavigationBar from "../components/NavigationBar";
 import { updateUser } from "../../utils/api";
 import { format } from "date-fns";
@@ -9,6 +9,8 @@ import { format } from "date-fns";
 const UserProfile = () => {
   const [currentUser] = useState(JSON.parse(localStorage.getItem("loggedInUser")));
   const [avatarUpdated, setAvatarUpdated] = useState(false);
+  const [userMealsNum] = useState(JSON.parse(localStorage.getItem("userMealsNum")));
+  const [mostFrequentMeal] = useState(localStorage.getItem("mostFrequentMeal"));
 
   const [user, setUser] = useState({
     user_id: currentUser.user_id,
@@ -105,7 +107,8 @@ const UserProfile = () => {
   return (
     <>
       <NavigationBar avatarUpdated={avatarUpdated} setAvatarUpdated={setAvatarUpdated} />
-      <div className="flex justify-center items-center min-h-screen pt-28 bg-gray-100">
+      <div className="flex justify-center items-start min-h-screen pt-28 bg-gray-100">
+        {/* Main Profile Section */}
         <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg mt-10">
           <h1 className="text-2xl font-bold mb-6 text-center">User Profile</h1>
 
@@ -116,14 +119,12 @@ const UserProfile = () => {
               alt="User Avatar"
               className={`h-48 w-48 rounded-full shadow-lg object-cover transition-opacity ${isSaving ? "opacity-50" : "opacity-100"}`}
             />
-
             {isSaving && (
               <div className="absolute h-48 w-48 rounded-full flex flex-col justify-center items-center bg-black bg-opacity-50 text-white">
-                <Spinner animation="border" role="status" style={{ width: '2rem', height: '2rem' }} />
+                <Spinner animation="border" role="status" style={{ width: "2rem", height: "2rem" }} />
                 <span className="mt-2">Uploading...</span>
               </div>
             )}
-
             {isEditing && (
               <div className="mt-2">
                 <label
@@ -143,8 +144,6 @@ const UserProfile = () => {
             )}
           </div>
 
-
-
           {/* Username Section */}
           <div className="mb-4">
             <label className="block text-gray-700 font-medium mb-2">
@@ -163,8 +162,6 @@ const UserProfile = () => {
               <p className="px-4 py-2 bg-gray-100 rounded-lg">{user.username}</p>
             )}
           </div>
-
-
 
           {/* Password Section */}
           <div className="mb-4">
@@ -187,15 +184,17 @@ const UserProfile = () => {
           </div>
 
           {/* Member Since Section */}
-          {isEditing ? "" : (<div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2">
-              <FontAwesomeIcon icon={faCrown} className="mr-2" />
-              Member Since
-            </label>
-            <p className="px-4 py-2 bg-gray-100 rounded-lg">
-              {format(new Date(currentUser.date_joined), 'd MMMM yyyy')}
-            </p>
-          </div>)}
+          {!isEditing && (
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium mb-2">
+                <FontAwesomeIcon icon={faCrown} className="mr-2" />
+                Member Since
+              </label>
+              <p className="px-4 py-2 bg-gray-100 rounded-lg">
+                {format(new Date(currentUser.date_joined), "d MMMM yyyy")}
+              </p>
+            </div>
+          )}
 
           {/* Action Buttons */}
           <div className="flex justify-between mt-6">
@@ -212,7 +211,10 @@ const UserProfile = () => {
                   Save Changes
                 </button>
                 <button
-                  onClick={() => { setIsEditing(false); setUpdatedUser(user) }}
+                  onClick={() => {
+                    setIsEditing(false);
+                    setUpdatedUser(user);
+                  }}
                   className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg shadow hover:bg-gray-400 transition"
                 >
                   Cancel
@@ -228,10 +230,34 @@ const UserProfile = () => {
             )}
           </div>
         </div>
-      </div>
 
+        {/* User Stats Sidebar */}
+        <div className="bg-white p-6 rounded-lg shadow-lg w-fit ml-8 mt-10">
+          <h2 className="text-gray-700 text-2xl font-bold mb-4">User Statistics</h2>
+          <div className="bg-gray-100 rounded-lg p-4 space-y-3">
+            {/* Meals Logged */}
+            <div className="flex flex-col items-start">
+              <div className="flex items-center">
+                <FontAwesomeIcon icon={faUtensils} className="text-indigo-500 mr-2" />
+                <span className="font-medium">Meals Logged:</span>
+              </div>
+              <span className="ml-6 text-gray-700">{userMealsNum}</span>
+            </div>
+            {/* Most Frequently Eaten Meal */}
+            <div className="flex flex-col items-start">
+              <div className="flex items-center">
+                <FontAwesomeIcon icon={faDrumstickBite} className="text-red-500 mr-2" />
+                <span className="font-medium">Most Eaten Meal:</span>
+              </div>
+              <span className="ml-6 text-gray-700">{mostFrequentMeal}</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </>
   );
+
 };
 
 export default UserProfile;
