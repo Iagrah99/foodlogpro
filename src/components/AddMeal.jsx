@@ -85,7 +85,7 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
   };
 
   const handleAddMeal = async () => {
-    console.log(lastEaten)
+    setIsUpdated(false)
     const token = JSON.parse(localStorage.getItem('token'));
     const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
 
@@ -108,6 +108,7 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
       handleClose();
     } catch (err) {
       setIsLoading(false);
+      setIsUpdated(false)
       setIsError(true);
       setError(err.response.data.msg);
     }

@@ -79,7 +79,7 @@ const Meals = () => {
       localStorage.setItem("mostFrequentMeal", mostFrequent);
 
       console.log(mostFrequent)
-    }
+    } ``
   }, [meals]);
 
 

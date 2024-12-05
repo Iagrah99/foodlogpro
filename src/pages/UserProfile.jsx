@@ -233,27 +233,22 @@ const UserProfile = () => {
 
         {/* User Stats Sidebar */}
         <div className="bg-white p-6 rounded-lg shadow-lg w-fit ml-8 mt-10">
-          <h2 className="text-gray-700 text-2xl font-bold mb-4">User Statistics</h2>
+          <h2 className="text-gray-700 text-2xl text-center font-bold mb-4">User Statistics</h2>
           <div className="bg-gray-100 rounded-lg p-4 space-y-3">
             {/* Meals Logged */}
-            <div className="flex flex-col items-start">
-              <div className="flex items-center">
-                <FontAwesomeIcon icon={faUtensils} className="text-indigo-500 mr-2" />
-                <span className="font-medium">Meals Logged:</span>
-              </div>
-              <span className="ml-6 text-gray-700">{userMealsNum}</span>
+            <div className="flex items-center">
+              <FontAwesomeIcon icon={faUtensils} className="text-indigo-500 mr-2" />
+              <span className="font-medium">Meals Logged:</span>
+              <span className="ml-2">{userMealsNum}</span>
             </div>
             {/* Most Frequently Eaten Meal */}
-            <div className="flex flex-col items-start">
-              <div className="flex items-center">
-                <FontAwesomeIcon icon={faDrumstickBite} className="text-red-500 mr-2" />
-                <span className="font-medium">Most Eaten Meal:</span>
-              </div>
-              <span className="ml-6 text-gray-700">{mostFrequentMeal}</span>
+            <div className="flex items-center">
+              <FontAwesomeIcon icon={faDrumstickBite} className="text-red-500 mr-2" />
+              <span className="font-medium">Most Eaten Meal:</span>
+              <span className="ml-2">{mostFrequentMeal}</span>
             </div>
           </div>
         </div>
-
       </div>
     </>
   );
