@@ -157,7 +157,7 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
                 className="p-2 w-full border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
             </div>
-            <div>
+            {/* <div>
               <label className="block text-sm font-medium text-gray-700 my-2">Ingredients (comma-separated)</label>
               <input
                 type="text"
@@ -165,7 +165,7 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
                 onChange={handleInputChange(setIngredientsStr)}
                 className="p-2 w-full border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
-            </div>
+            </div> */}
             <div>
               <label className="block text-sm font-medium text-gray-700 my-2">Last Eaten</label>
               <input

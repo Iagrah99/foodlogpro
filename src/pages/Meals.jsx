@@ -6,7 +6,7 @@ import AddMeal from "../components/AddMeal";
 import { UserContext } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faStarHalfAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import MealName from "../components/MealName";
 import DeleteMealModal from "../components/DeleteMealModal";
 import MealSource from "../components/MealSource";
@@ -63,7 +63,7 @@ const Meals = () => {
     };
 
     fetchMeals();
-  }, [loggedInUser, navigate, error, isDeleted, isUpdated]); // Removed isUpdated and isDeleted
+  }, [loggedInUser, navigate, error, isDeleted, isUpdated]);
 
   useEffect(() => {
     if (meals.length > 0) {
@@ -115,7 +115,6 @@ const Meals = () => {
     setMeals(updatedMeals);
 
     try {
-      // Perform the API call
       await updateMeal(meal_id, updateValue, valueType, token);
       console.log(token)
       setIsUpdated(true); // Indicate successful update
@@ -245,12 +244,14 @@ const Meals = () => {
                       <td className="px-2 py-4 whitespace-nowrap text-center">
                         <button
                           onClick={() => toggleModal(meal.meal_id)}
-                          className="px-6 mr-3 py-2 bg-red-500 text-white rounded shadow hover:bg-red-600 transition"
+                          className="text-red-500 hover:text-red-600 transition"
+                          aria-label="Delete Meal"
+                          title="Delete Meal"
                         >
-                          Delete
+                          <FontAwesomeIcon icon={faTrashAlt} className="text-3xl" />
                         </button>
-
                       </td>
+
 
                     </tr>
                   ))

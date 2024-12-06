@@ -45,6 +45,7 @@ const MealLastEaten = ({ value, onSave }) => {
         <span
           onClick={() => setIsEditing(true)}
           className="cursor-pointer text-center"
+          title="Edit Date"
         >
           {value ? format(new Date(value), 'EEEE, dd/MM/yyyy') : 'N/A'}
         </span>

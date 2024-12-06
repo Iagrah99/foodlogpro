@@ -60,7 +60,7 @@ const MealImage = ({ value, onSave }) => {
   };
 
   return (
-    <td className="px-2 py-2 whitespace-nowrap text-center text-base font-medium text-gray-700 relative">
+    <td className="px-2 py-2 whitespace-nowrap text-center text-base font-medium text-gray-700 relative" title="Edit Image">
       {/* Hidden file input */}
       <input
         type="file"

@@ -49,6 +49,7 @@ const MealSource = ({ value, onSave }) => {
           ref={spanRef} // Reference for measuring width
           onClick={() => setIsEditing(true)}
           className="cursor-pointer"
+          title="Edit Source"
         >
           {value}
         </span>
