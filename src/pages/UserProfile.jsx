@@ -206,7 +206,7 @@ const UserProfile = () => {
                     ? "bg-indigo-500 cursor-not-allowed"
                     : "bg-indigo-500 hover:bg-indigo-600"
                     }`}
-                  disabled={isSaving} // Disable when loading
+                  disabled={isSaving}
                 >
                   Save Changes
                 </button>
@@ -214,6 +214,7 @@ const UserProfile = () => {
                   onClick={() => {
                     setIsEditing(false);
                     setUpdatedUser(user);
+                    setIsSaving(false)
                   }}
                   className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg shadow hover:bg-gray-400 transition"
                 >

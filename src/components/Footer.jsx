@@ -41,7 +41,7 @@ const Footer = () => {
             FAQ
           </a>
           <a
-            href="/privacy-policy"
+            href="/"
             className={`text-sm ${isScrolled ? "text-gray-800" : "text-gray-200"} font-semibold no-underline transition duration-300 py-2 px-6 rounded-lg`}
           >
             Privacy Policy
