@@ -15,8 +15,6 @@ Welcome to **FoodLogPro**, a full-stack web application designed to help users t
 
 The hosted version can be found [here](https://foodlogpro.example.com/).
 
-**Please note**: This app is hosted using Render with a free instance type. Inactive servers spin down after 15 minutes and may take a few minutes to spin back up on the next request. Thank you for your patience!
-
 ### Core Functionality
 - Users can log, edit, and delete meals with various attributes.
 - View personal account information, including profile avatar, username, and join date.
@@ -26,19 +24,20 @@ The hosted version can be found [here](https://foodlogpro.example.com/).
 
 ### General User Features
 1. **Meal Logging**: Add meals with attributes such as:
-   - Meal name
-   - Recipe source
-   - Last eaten date
-   - Rating (1–5 stars)
-   - Image upload
+   1. Meal name
+   2. Recipe source
+   3. Last eaten date
+   4. Rating (1–5 stars)
+   5. Image upload
 2. **Edit & Delete Meals**: Update or remove meal entries at any time.
 3. **User Profile**: View account details such as avatar, username, and join date.
 4. **Meal Statistics**: View insights like total meals logged and most frequently eaten meal.
 
 ### Security Features
 1. **User Authentication**:
-   - Passwords securely hashed using **bcrypt**.
-   - User sessions managed via **JSON Web Tokens (JWT)**.
+   1. Passwords securely hashed using **bcrypt**.
+   2. User sessions managed via **JSON Web Tokens (JWT)**.
+
 
 ## Tech Stack
 
