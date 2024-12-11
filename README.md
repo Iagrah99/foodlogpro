@@ -13,7 +13,7 @@ Welcome to **FoodLogPro**, a full-stack web application designed to help users t
 
 **FoodLogPro** is a meal tracking application that allows users to log their meals for tea/dinner along with detailed attributes such as the meal name, recipe source, last eaten date, rating, and an image. Users can also view and manage account details while tracking meal-related statistics, such as total meals logged and their most frequently eaten meal.
 
-The hosted version can be found [here](https://foodlogpro.example.com/).
+The hosted version can be found [here](https://weekly-meals-fe.vercel.app/).
 
 ### Core Functionality
 - Users can log, edit, and delete meals with various attributes.
