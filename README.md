@@ -25,20 +25,20 @@ The hosted version can be found [here](https://foodlogpro.example.com/).
 ## Features
 
 ### General User Features
-- **Meal Logging**: Add meals with attributes such as:
-  - Meal name
-  - Recipe source
-  - Last eaten date
-  - Rating (1–5 stars)
-  - Image upload
-- **Edit & Delete Meals**: Update or remove meal entries at any time.
-- **User Profile**: View account details such as avatar, username, and join date.
-- **Meal Statistics**: View insights like total meals logged and most frequently eaten meal.
+1. **Meal Logging**: Add meals with attributes such as:
+   - Meal name
+   - Recipe source
+   - Last eaten date
+   - Rating (1–5 stars)
+   - Image upload
+2. **Edit & Delete Meals**: Update or remove meal entries at any time.
+3. **User Profile**: View account details such as avatar, username, and join date.
+4. **Meal Statistics**: View insights like total meals logged and most frequently eaten meal.
 
 ### Security Features
-- **User Authentication**:
-  - Passwords securely hashed using **bcrypt**.
-  - User sessions managed via **JSON Web Tokens (JWT)**.
+1. **User Authentication**:
+   - Passwords securely hashed using **bcrypt**.
+   - User sessions managed via **JSON Web Tokens (JWT)**.
 
 ## Tech Stack
 
