@@ -7,7 +7,6 @@ Welcome to **FoodLogPro**, a full-stack web application designed to help users t
 2. [Features](#features)
 3. [Tech Stack](#tech-stack)
 4. [Installation & Setup](#installation--setup)
-5. [Usage & Demonstrations](#usage--demonstrations)
 
 ## Project Overview
 
