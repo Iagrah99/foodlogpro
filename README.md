@@ -65,7 +65,7 @@ The hosted version can be found [here](https://foodlogpro.vercel.app/).
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/Iagrah99/pawfect-events.git
+   git clone https://github.com/Iagrah99/foodlogpro.git
    cd foodlogpro
 
  1B. Change from the current directory into the project folder
