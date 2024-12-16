@@ -49,7 +49,7 @@ The hosted version can be found [here](https://foodlogpro.vercel.app/).
 - **Express.js**: Lightweight backend framework for routing and API handling.
 - **PostgreSQL**: Relational database to store user accounts and meal records.
 
-### Security & Authorization
+### Security & Authorisation
 - **bcrypt**: Ensures secure password hashing.
 - **JSON Web Tokens (JWT)**: Manages user authentication and authorization.
 
