@@ -68,8 +68,7 @@ const FAQ = () => {
               {[
                 { question: "How do I track my meals?", answer: "Simply log your meals using the app, and FoodLogPro will keep track of your meals and provide insightful statistics and recommendations." },
                 { question: "How do I edit my meals?", answer: "To edit your meals, simply click on the piece of information you'd like to change. For instance, clicking on the meal name will allow you to edit it directly, making it easy to update your details on the spot." },
-                { question: "Is my data secure?", answer: "We take your privacy seriously and use industry-standard encryption to protect your data." },
-                { question: "Do you offer any health insights?", answer: "Yes, FoodLogPro provides health insights based on your eating habits to help you make healthier choices." }
+                { question: "Is my data secure?", answer: "We take your privacy seriously and use industry-standard encryption to protect your data." }
               ].map((faq, index) => (
                 <div
                   key={index}
