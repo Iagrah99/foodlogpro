@@ -6,12 +6,17 @@ import AddMeal from "../components/AddMeal";
 import { UserContext } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar, faStarHalfAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faStar,
+  faStarHalfAlt,
+  faTrashAlt,
+  faPlus
+} from "@fortawesome/free-solid-svg-icons";
 import MealName from "../components/MealName";
 import DeleteMealModal from "../components/DeleteMealModal";
 import MealSource from "../components/MealSource";
 import MealImage from "../components/MealImage";
-import MealLastEaten from "../components/MealLastEaten"
+import MealLastEaten from "../components/MealLastEaten";
 
 const Meals = () => {
   const [meals, setMeals] = useState([]);
@@ -33,32 +38,35 @@ const Meals = () => {
   useEffect(() => {
     // Skip fetching meals if there's no loggedInUser
     if (!loggedInUser) {
-      navigate('/login');
+      navigate("/login");
       return; // Exit if no user is logged in
     }
 
     // Handle invalid token error and log out the user
     if (error && error === "Forbidden: Invalid token") {
       setLoggedInUser(null);
-      localStorage.removeItem('loggedInUser');
-      localStorage.removeItem('token');
+      localStorage.removeItem("loggedInUser");
+      localStorage.removeItem("token");
       navigate("/login");
-    };
+    }
 
     const fetchMeals = async () => {
       setIsLoading(true);
 
       try {
-        const token = JSON.parse(localStorage.getItem('token'));
+        const token = JSON.parse(localStorage.getItem("token"));
         const userId = loggedInUser.user_id;
         const mealsFromApi = await getUserMeals(userId, token);
-        localStorage.setItem("userMealsNum", JSON.stringify(mealsFromApi.length))
+        localStorage.setItem(
+          "userMealsNum",
+          JSON.stringify(mealsFromApi.length)
+        );
         setMeals(mealsFromApi);
         setIsLoading(false);
       } catch (err) {
         setIsLoading(false);
         setIsError(true);
-        setError(err.response?.data?.msg || 'An error occurred');
+        setError(err.response?.data?.msg || "An error occurred");
       }
     };
 
@@ -78,28 +86,27 @@ const Meals = () => {
 
       localStorage.setItem("mostFrequentMeal", mostFrequent);
 
-      console.log(mostFrequent)
-    } ``
+      console.log(mostFrequent);
+    }
+    ``;
   }, [meals]);
-
 
   const toggleModal = (meal_id = null) => {
     setSelectedMealId(meal_id);
     setIsModalOpen(!isModalOpen);
   };
 
-
   const handleDeleteMeal = async (meal_id) => {
-    setIsDeleted(false)
+    setIsDeleted(false);
     const token = JSON.parse(localStorage.getItem("token"));
     try {
-      await removeMeal(meal_id, token)
-      setIsDeleted(true)
+      await removeMeal(meal_id, token);
+      setIsDeleted(true);
     } catch (err) {
       setIsError(true);
-      setError(err.response.data.msg)
+      setError(err.response.data.msg);
     }
-  }
+  };
 
   const handleUpdateMeal = async (meal_id, updateValue, valueType) => {
     setIsUpdated(false);
@@ -116,7 +123,7 @@ const Meals = () => {
 
     try {
       await updateMeal(meal_id, updateValue, valueType, token);
-      console.log(token)
+      console.log(token);
       setIsUpdated(true); // Indicate successful update
     } catch (err) {
       // On error, revert to the original state
@@ -133,9 +140,7 @@ const Meals = () => {
         <Loading />
       ) : error ? (
         <div className="flex flex-col justify-center items-center text-center min-h-screen font-bold">
-          <div className="text-red-500 text-lg font-semibold">
-            {error}
-          </div>
+          <div className="text-red-500 text-lg font-semibold">{error}</div>
           <button
             onClick={() => window.location.reload()}
             className="mt-4 px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600 transition"
@@ -150,49 +155,72 @@ const Meals = () => {
               <h2 className="text-2xl font-semibold text-gray-900">My Meals</h2>
             </div>
             <button
-              className="ml-auto px-6 py-2 bg-indigo-500 text-white rounded shadow hover:bg-indigo-600 transition"
-              onClick={() => { setIsOpen(true) }}
+              className="ml-auto px-6 py-3 bg-indigo-500 text-white rounded shadow hover:bg-indigo-600 transition transform hover:scale-110"
+              onClick={() => setIsOpen(true)}
+              title="Add New Meal"
             >
-              Add New Meal
+              <FontAwesomeIcon icon={faPlus} className="text-2xl" />
             </button>
 
-            {IsOpen && <AddMeal setIsOpen={setIsOpen} setIsUpdated={setIsUpdated} />}
+            {IsOpen && (
+              <AddMeal setIsOpen={setIsOpen} setIsUpdated={setIsUpdated} />
+            )}
           </div>
 
           <div className="overflow-x-auto">
             <table className="min-w-full bg-white border border-gray-200 shadow-lg rounded-lg">
               <thead className="bg-gray-200">
                 <tr>
-                  <th className="pl-20 py-3 text-left text-base font-medium text-gray-600 uppercase tracking-wider">Image</th>
-                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Name</th>
-                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Source</th>
+                  <th className="pl-20 py-3 text-left text-base font-medium text-gray-600 uppercase tracking-wider">
+                    Image
+                  </th>
+                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">
+                    Name
+                  </th>
+                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">
+                    Source
+                  </th>
                   {/* <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Ingredients</th> */}
-                  <th className="px-10 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider" style={{ minWidth: '200px' }}>
+                  <th
+                    className="px-10 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider"
+                    style={{ minWidth: "200px" }}
+                  >
                     Last Eaten
                   </th>
-                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Rating</th>
-                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">&nbsp;</th>
+                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">
+                    Rating
+                  </th>
+                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">
+                    &nbsp;
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {meals.length === 0 ? (
                   <tr>
                     <td colSpan="7" className="text-center py-12 text-gray-800">
-                      No meals to display. Please add some meals to see them here.
+                      No meals to display. Please add some meals to see them
+                      here.
                     </td>
                   </tr>
                 ) : (
                   meals.map((meal) => (
-                    <tr key={meal.id} className="border-b border-gray-200 hover:bg-gray-100 transition">
+                    <tr
+                      key={meal.id}
+                      className="border-b border-gray-200 hover:bg-gray-100 transition"
+                    >
                       <td className="mx-6 py-1 whitespace-nowrap">
                         {meal.image ? (
                           <MealImage
                             value={meal.image} // Pass the current image URL as the initial value
                             onSave={(newImageUrl) => {
-                              handleUpdateMeal(meal.meal_id, newImageUrl, "image");  // Update the meal with the new image URL
+                              handleUpdateMeal(
+                                meal.meal_id,
+                                newImageUrl,
+                                "image"
+                              ); // Update the meal with the new image URL
                             }}
                           />
-
                         ) : (
                           <div className="w-16 h-16 bg-gray-300 rounded"></div>
                         )}
@@ -200,13 +228,13 @@ const Meals = () => {
                       <MealName
                         value={meal.name}
                         onSave={(newValue) => {
-                          handleUpdateMeal(meal.meal_id, newValue, "name")
+                          handleUpdateMeal(meal.meal_id, newValue, "name");
                         }}
                       />
                       <MealSource
                         value={meal.source}
                         onSave={(newValue) => {
-                          handleUpdateMeal(meal.meal_id, newValue, "source")
+                          handleUpdateMeal(meal.meal_id, newValue, "source");
                         }}
                       />
                       {/* <td className="px-2 py-4 text-base text-gray-700">
@@ -221,10 +249,19 @@ const Meals = () => {
                           ))}
                         </div>
                       </td> */}
-                      <td className="px-2 py-4 whitespace-nowrap text-center text-base text-gray-600" style={{ minWidth: '200px' }}>
+                      <td
+                        className="px-2 py-4 whitespace-nowrap text-center text-base text-gray-600"
+                        style={{ minWidth: "200px" }}
+                      >
                         <MealLastEaten
                           value={meal.last_eaten}
-                          onSave={(newDate) => handleUpdateMeal(meal.meal_id, newDate, "last_eaten")}
+                          onSave={(newDate) =>
+                            handleUpdateMeal(
+                              meal.meal_id,
+                              newDate,
+                              "last_eaten"
+                            )
+                          }
                         />
                       </td>
 
@@ -232,11 +269,29 @@ const Meals = () => {
                         {Array.from({ length: 5 }).map((_, index) => {
                           const ratingValue = index + 1;
                           if (meal.rating >= ratingValue) {
-                            return <FontAwesomeIcon key={index} icon={faStar} className="text-yellow-500" />;
+                            return (
+                              <FontAwesomeIcon
+                                key={index}
+                                icon={faStar}
+                                className="text-yellow-500"
+                              />
+                            );
                           } else if (meal.rating >= ratingValue - 0.5) {
-                            return <FontAwesomeIcon key={index} icon={faStarHalfAlt} className="text-yellow-500" />;
+                            return (
+                              <FontAwesomeIcon
+                                key={index}
+                                icon={faStarHalfAlt}
+                                className="text-yellow-500"
+                              />
+                            );
                           } else {
-                            return <FontAwesomeIcon key={index} icon={faStar} className="text-gray-400" />;
+                            return (
+                              <FontAwesomeIcon
+                                key={index}
+                                icon={faStar}
+                                className="text-gray-400"
+                              />
+                            );
                           }
                         })}
                       </td>
@@ -248,16 +303,16 @@ const Meals = () => {
                           aria-label="Delete Meal"
                           title="Delete Meal"
                         >
-                          <FontAwesomeIcon icon={faTrashAlt} className="text-3xl" />
+                          <FontAwesomeIcon
+                            icon={faTrashAlt}
+                            className="text-3xl"
+                          />
                         </button>
                       </td>
-
-
                     </tr>
                   ))
                 )}
               </tbody>
-
             </table>
           </div>
 
@@ -268,11 +323,9 @@ const Meals = () => {
               mealId={selectedMealId}
             />
           )}
-
         </div>
       )}
     </>
-
   );
 };
 
