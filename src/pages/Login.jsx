@@ -16,6 +16,12 @@ const Login = () => {
 
   const [message, setMessage] = useState(location.state?.message || ""); // Initialize with the passed message
 
+  const [isSessionExpired, setIsSessionExpired] = useState(
+    JSON.parse(localStorage.getItem("sessionExpired"))
+  );
+
+  console.log("SessionExpired Value: ", isSessionExpired);
+
   // Set up a timer to remove the message after 3 seconds
   useEffect(() => {
     if (message) {
@@ -184,7 +190,9 @@ const Login = () => {
           )}
 
           {message && (
-            <div className="mt-4 text-center text-green-500 text-sm font-semibold">{message}</div>
+            <div className="mt-4 text-center text-green-500 text-sm font-semibold">
+              {message}
+            </div>
           )}
 
           {isLoggingIn && (
@@ -193,9 +201,22 @@ const Login = () => {
             </div>
           )}
 
+          {isSessionExpired && (
+            <div
+              role="alert"
+              aria-live="assertive"
+              className="mt-4 text-center text-red-500 text-sm font-semibold"
+            >
+              Your session has expired. Please log in again.
+            </div>
+          )}
+
           <p className="mt-6 text-center text-sm text-gray-600">
             Don't have an account?{" "}
-            <a href="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
+            <a
+              href="/register"
+              className="font-medium text-indigo-600 hover:text-indigo-500"
+            >
               Sign up
             </a>
           </p>
@@ -203,9 +224,7 @@ const Login = () => {
       </div>
 
       {/* Reset Password Modal */}
-      {isModalOpen && (
-        <ResetPassword setIsModalOpen={setIsModalOpen} />
-      )}
+      {isModalOpen && <ResetPassword setIsModalOpen={setIsModalOpen} />}
     </>
   );
 };

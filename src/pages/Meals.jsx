@@ -47,6 +47,7 @@ const Meals = () => {
       setLoggedInUser(null);
       localStorage.removeItem("loggedInUser");
       localStorage.removeItem("token");
+      localStorage.setItem("sessionExpired", "true")
       navigate("/login");
     }
 
@@ -135,7 +136,7 @@ const Meals = () => {
 
   return (
     <>
-      <NavigationBar page="login" />
+      <NavigationBar page="login" />  
       {isLoading ? (
         <Loading />
       ) : error ? (
