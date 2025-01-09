@@ -10,8 +10,8 @@ import { UserContext } from "../contexts/UserContext";
 import ResetPassword from "../components/ResetPassword";
 
 const Login = () => {
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const location = useLocation();
 
   const [message, setMessage] = useState(location.state?.message || ""); // Initialize with the passed message
@@ -20,19 +20,21 @@ const Login = () => {
     JSON.parse(localStorage.getItem("sessionExpired"))
   );
 
-  console.log("SessionExpired Value: ", isSessionExpired);
-
   // Set up a timer to remove the message after 3 seconds
   useEffect(() => {
     if (message) {
+      // Clear the message after 3 seconds
       const timer = setTimeout(() => {
-        setMessage(""); // Clear the message after 3 seconds
+        setMessage("");
       }, 3000);
+
+      // Clear location.state to prevent the message from reappearing on reload
+      navigate(location.pathname, { replace: true });
 
       return () => clearTimeout(timer); // Cleanup the timer on component unmount
     }
-  }, [message]); // Only rerun this effect when `message` changes
-
+  }, [message, location.pathname, navigate]); // Dependencies to rerun when message changes
+  
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);

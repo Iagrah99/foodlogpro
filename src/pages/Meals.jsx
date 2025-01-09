@@ -10,7 +10,7 @@ import {
   faStar,
   faStarHalfAlt,
   faTrashAlt,
-  faPlus
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import MealName from "../components/MealName";
 import DeleteMealModal from "../components/DeleteMealModal";
@@ -28,6 +28,8 @@ const Meals = () => {
 
   const [selectedMealId, setSelectedMealId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filterText, setFilterText] = useState("");
+  const [originalMeals, setOriginalMeals] = useState(meals)
 
   const [isDeleted, setIsDeleted] = useState(false);
 
@@ -47,8 +49,11 @@ const Meals = () => {
       setLoggedInUser(null);
       localStorage.removeItem("loggedInUser");
       localStorage.removeItem("token");
-      localStorage.setItem("sessionExpired", "true")
-      navigate("/login");
+      navigate("/login", {
+        state: {
+          tokenExpired: "Your session has expired. Please log in again.",
+        },
+      });
     }
 
     const fetchMeals = async () => {
@@ -56,6 +61,7 @@ const Meals = () => {
 
       try {
         const token = JSON.parse(localStorage.getItem("token"));
+        // console.log(token)
         const userId = loggedInUser.user_id;
         const mealsFromApi = await getUserMeals(userId, token);
         localStorage.setItem(
@@ -63,6 +69,7 @@ const Meals = () => {
           JSON.stringify(mealsFromApi.length)
         );
         setMeals(mealsFromApi);
+        setOriginalMeals(mealsFromApi)
         setIsLoading(false);
       } catch (err) {
         setIsLoading(false);
@@ -134,9 +141,24 @@ const Meals = () => {
     }
   };
 
+  const handleFilterMeals = (e) => {
+    const value = e.target.value; 
+    setFilterText(value);
+
+    if (value === "") {
+      setMeals(originalMeals);
+    } else {
+      const filteredMeals = originalMeals.filter((meal) =>
+        meal.name.toLowerCase().startsWith(value.toLowerCase())
+      );
+      setMeals(filteredMeals);
+    }
+  };
+  
+
   return (
     <>
-      <NavigationBar page="login" />  
+      <NavigationBar page="login" />
       {isLoading ? (
         <Loading />
       ) : error ? (
@@ -151,10 +173,18 @@ const Meals = () => {
         </div>
       ) : (
         <div className="p-12 bg-gray-100  min-h-screen py-32">
-          <div className="flex justify-between items-center mb-6">
             <div className="flex-grow text-center">
-              <h2 className="text-2xl font-semibold text-gray-900">My Meals</h2>
+              {/* <h2 className="text-4xl font-semibold text-gray-900">My Meals</h2> */}
             </div>
+          <div className="flex justify-between items-center mb-6">
+            <input
+              type="text"
+              placeholder="Filter Meals"
+              className="w-full max-w-sm px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-700"
+              onChange={(e) => handleFilterMeals(e)}
+              value={filterText}
+            />
+          
             <button
               className="ml-auto px-6 py-3 bg-indigo-500 text-white rounded shadow hover:bg-indigo-600 transition transform hover:scale-110"
               onClick={() => setIsOpen(true)}
