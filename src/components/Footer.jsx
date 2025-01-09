@@ -29,7 +29,7 @@ const Footer = () => {
       <div className="container mx-auto flex justify-between items-center py-2 px-6">
         {/* Left side content */}
         <div className="text-gray-600 text-sm flex items-center">
-          <a>&copy; 2024 FoodLogPro. All rights reserved.</a>
+          <a>&copy; 2025 FoodLogPro. All rights reserved.</a>
         </div>
 
         {/* Right side links */}

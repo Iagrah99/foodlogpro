@@ -149,12 +149,11 @@ const Meals = () => {
       setMeals(originalMeals);
     } else {
       const filteredMeals = originalMeals.filter((meal) =>
-        meal.name.toLowerCase().startsWith(value.toLowerCase())
+        meal.name.toLowerCase().includes(value.toLowerCase())
       );
       setMeals(filteredMeals);
     }
   };
-  
 
   return (
     <>
