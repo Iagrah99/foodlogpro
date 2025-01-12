@@ -55,7 +55,7 @@ const NavigationBar = ({ avatarUpdated, setAvatarUpdated }) => {
     <>
       {/* Navigation Bar */}
       <nav
-        className={`fixed w-full z-10 transition-all duration-300 ease-in-out ${isScrolled ? "bg-gray-100 text-gray-900 shadow-md" : "bg-transparent text-white shadow-none"
+        className={`fixed w-full z-50 transition-all duration-300 ease-in-out ${isScrolled ? "bg-gray-100 text-gray-900 shadow-md" : "bg-transparent text-white shadow-none"
           }`}
       >
         <div className="container mx-auto flex items-center justify-between py-4 px-6">

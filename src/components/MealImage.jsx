@@ -77,6 +77,7 @@ const MealImage = ({ value, onSave }) => {
           alt="Meal"
           className={`w-48 h-48 object-cover rounded cursor-pointer border ${isImageUploading ? 'opacity-50' : 'opacity-100'}`}
           onClick={handleImageClick} // Trigger file input on click
+          loading="lazy"
         />
         {/* Loading spinner over the image */}
         {isImageUploading && (
