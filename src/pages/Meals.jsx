@@ -85,7 +85,7 @@ const Meals = () => {
     if (meals.length > 0) {
       // Filter out "freezer" and "frozen pizza"  
       const filteredMeals = meals.filter(
-        (meal) => meal.name !== "Freezer" && meal.name !== "Frozen Pizza" && meal.name !== "Mighty Meat Feast Pizza" && loggedInUser.username !== "Ian"
+        (meal) => meal.name !== "Freezer" && meal.name !== "Frozen Pizza" && meal.name !== "Mighty Meat Feast Pizza"
       );
   
       if (filteredMeals.length > 0) {
