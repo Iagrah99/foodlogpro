@@ -83,21 +83,31 @@ const Meals = () => {
 
   useEffect(() => {
     if (meals.length > 0) {
-      const mealCounts = meals.reduce((acc, meal) => {
-        acc[meal.name] = (acc[meal.name] || 0) + 1;
-        return acc;
-      }, {});
-
-      const mostFrequent = Object.keys(mealCounts).reduce((a, b) =>
-        mealCounts[a] > mealCounts[b] ? a : b
+      // Filter out "freezer" and "frozen pizza"  
+      const filteredMeals = meals.filter(
+        (meal) => meal.name !== "Freezer" && meal.name !== "Frozen Pizza" && meal.name !== "Mighty Meat Feast Pizza" && loggedInUser.username !== "Ian"
       );
-
-      localStorage.setItem("mostFrequentMeal", mostFrequent);
-
-      console.log(mostFrequent);
+  
+      if (filteredMeals.length > 0) {
+        const mealCounts = filteredMeals.reduce((acc, meal) => {
+          acc[meal.name] = (acc[meal.name] || 0) + 1;
+          return acc;
+        }, {});
+  
+        const mostFrequent = Object.keys(mealCounts).reduce((a, b) =>
+          mealCounts[a] > mealCounts[b] ? a : b
+        );
+  
+        localStorage.setItem("mostFrequentMeal", mostFrequent);
+  
+        console.log(mostFrequent);
+      } else {
+        console.log("No valid meals to determine the most frequent.");
+        localStorage.removeItem("mostFrequentMeal");
+      }
     }
-    ``;
   }, [meals]);
+  
 
   const toggleModal = (meal_id = null) => {
     setSelectedMealId(meal_id);
