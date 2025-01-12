@@ -29,7 +29,7 @@ const Meals = () => {
   const [selectedMealId, setSelectedMealId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filterText, setFilterText] = useState("");
-  const [originalMeals, setOriginalMeals] = useState(meals)
+  const [originalMeals, setOriginalMeals] = useState(null);
 
   const [isDeleted, setIsDeleted] = useState(false);
 
@@ -148,7 +148,7 @@ const Meals = () => {
     if (value === "") {
       setMeals(originalMeals);
     } else {
-      const filteredMeals = originalMeals.filter((meal) =>
+      const filteredMeals = meals.filter((meal) =>
         meal.name.toLowerCase().includes(value.toLowerCase())
       );
       setMeals(filteredMeals);
