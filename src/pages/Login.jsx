@@ -30,6 +30,7 @@ const Login = () => {
 
       // Clear location.state to prevent the message from reappearing on reload
       navigate(location.pathname, { replace: true });
+      setIsSessionExpired(false)
 
       return () => clearTimeout(timer); // Cleanup the timer on component unmount
     }
