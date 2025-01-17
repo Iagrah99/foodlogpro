@@ -14,7 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [message, setMessage] = useState(location.state?.message || ""); // Initialize with the passed message
+  const [message, setMessage] = useState(localStorage.getItem("sessionExpired") || ""); // Initialize with the passed message
 
   const [isSessionExpired, setIsSessionExpired] = useState(
     JSON.parse(localStorage.getItem("sessionExpired"))

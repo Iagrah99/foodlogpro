@@ -49,11 +49,8 @@ const Meals = () => {
       setLoggedInUser(null);
       localStorage.removeItem("loggedInUser");
       localStorage.removeItem("token");
-      navigate("/login", {
-        state: {
-          tokenExpired: "Your session has expired. Please log in again.",
-        },
-      });
+      localStorage.setItem("sessionExpired", "Your session has expired. Please log in again.")
+      navigate("/login");
     }
 
     const fetchMeals = async () => {

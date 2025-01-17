@@ -5,7 +5,7 @@ import { Icon } from 'react-icons-kit';
 import { eyeOff } from 'react-icons-kit/feather/eyeOff';
 import { eye } from 'react-icons-kit/feather/eye';
 import { spinner3 } from 'react-icons-kit/icomoon/spinner3';
-import { checkUsernameExists, checkEmailExists, registerUser, loadApi } from "../../utils/api";
+import { checkUsernameExists, checkEmailExists, registerUser } from "../../utils/api";
 import NavigationBar from "../components/NavigationBar";
 
 const Register = () => {
