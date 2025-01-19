@@ -86,6 +86,8 @@ const Login = () => {
     }
   };
 
+  const messageStyle = message.includes("expired") ? "text-red-500" : "text-green-500";
+
   return (
     <>
       <NavigationBar page="login" />
@@ -196,7 +198,7 @@ const Login = () => {
           )}
 
           {message && (
-            <div className="mt-4 text-center text-green-500 text-sm font-semibold">
+            <div className={`mt-4 text-center ${messageStyle} text-sm font-semibold`}>
               {message}
             </div>
           )}
