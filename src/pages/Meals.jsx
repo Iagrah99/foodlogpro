@@ -97,9 +97,7 @@ const Meals = () => {
   
         localStorage.setItem("mostFrequentMeal", mostFrequent);
   
-        console.log(mostFrequent);
       } else {
-        console.log("No valid meals to determine the most frequent.");
         localStorage.removeItem("mostFrequentMeal");
       }
     }
@@ -138,7 +136,7 @@ const Meals = () => {
 
     try {
       await updateMeal(meal_id, updateValue, valueType, token);
-      console.log(token);
+      // console.log(token);
       setIsUpdated(true); // Indicate successful update
     } catch (err) {
       // On error, revert to the original state
