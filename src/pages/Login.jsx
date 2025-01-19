@@ -27,8 +27,12 @@ const Login = () => {
   useEffect(() => {
     if (message) {
       // Clear the message after 3 seconds
-      const timer = setTimeout(() => {
+      const timer = setTimeout(() => {  
         setMessage("");
+        if (isSessionExpired) {
+          localStorage.removeItem("sessionExpired");
+          setIsSessionExpired(false);
+        }
       }, 3000);
 
       // Clear location.state to prevent the message from reappearing on reload
@@ -37,7 +41,7 @@ const Login = () => {
 
       return () => clearTimeout(timer); // Cleanup the timer on component unmount
     }
-  }, [message, location.pathname, navigate]); // Dependencies to rerun when message changes
+  }, [message, isSessionExpired, location.pathname, navigate]); // Dependencies to rerun when message changes
   
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
