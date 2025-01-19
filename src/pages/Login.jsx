@@ -17,7 +17,7 @@ const Login = () => {
   const [message, setMessage] = useState(localStorage.getItem("sessionExpired") || ""); // Initialize with the passed message
 
   const [isSessionExpired, setIsSessionExpired] = useState(
-    JSON.parse(localStorage.getItem("sessionExpired"))
+    localStorage.getItem("sessionExpired")
   );
 
   // Set up a timer to remove the message after 3 seconds
