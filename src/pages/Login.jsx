@@ -14,7 +14,10 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [message, setMessage] = useState(localStorage.getItem("sessionExpired") || ""); // Initialize with the passed message
+  const [message, setMessage] = useState(() => {
+    // Initialise with the passed message or fallback to sessionExpired if present
+    return localStorage.getItem("sessionExpired") || location.state?.message || "";
+  });
 
   const [isSessionExpired, setIsSessionExpired] = useState(
     localStorage.getItem("sessionExpired")
