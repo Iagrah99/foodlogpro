@@ -176,9 +176,9 @@ const Register = () => {
     <>
       <NavigationBar page="register" />
       <div
-        className="relative flex justify-center items-center md:h-[calc(100vh)] h-screen bg-gradient-to-b from-gray-100 to-gray-200 bg-no-repeat"
+        className="relative flex justify-center items-center md:h-[calc(100vh)] h-screen bg-no-repeat"
         style={{
-          backgroundImage: 'url(https://i.ibb.co/1mZHftP/bg-login.jpg)',
+          backgroundImage: 'url(https://i.ibb.co/gVTH59S/bg-login.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
