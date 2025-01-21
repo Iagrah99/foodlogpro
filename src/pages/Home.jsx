@@ -139,24 +139,22 @@ const Home = () => {
                 <div>
                   {/* Heading with fade-in effect */}
                   <h1
-                    className={`text-4xl md:text-5xl font-bold text-white mb-6 leading-tight transition-opacity duration-1000 ease-in-out ${
-                      showText
-                        ? "opacity-100 translate-y-0"
-                        : "opacity-0 translate-y-12"
-                    }`}
+                    className={`text-4xl md:text-5xl font-bold text-white mb-6 leading-tight transition-opacity duration-1000 ease-in-out ${showText
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-12"
+                      }`}
                   >
                     Welcome to FoodLogPro!
                   </h1>
 
                   {/* Paragraph with fade-in effect */}
                   <p
-                    className={`text-lg md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto leading-relaxed transition-opacity duration-1000 ease-in-out ${
-                      showText
-                        ? "opacity-100 translate-y-0"
-                        : "opacity-0 translate-y-12"
-                    }`}
+                    className={`text-lg md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto leading-relaxed transition-opacity duration-1000 ease-in-out ${showText
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-12"
+                      }`}
                   >
-                    Your personalized meal tracker that helps you keep track of
+                    Your personalised meal tracker that helps you keep track of
                     what you've been eating, plan your meals, and make healthier
                     choices.
                   </p>
@@ -164,11 +162,10 @@ const Home = () => {
                   {/* Buttons */}
                   <div className="flex justify-center gap-6 mt-6">
                     <button
-                      className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold text-lg py-3 px-10 rounded-full shadow-xl transition duration-500 ease-in-out transform ${
-                        showButtons
-                          ? "opacity-100 translate-y-0"
-                          : "opacity-0 translate-y-12"
-                      }`}
+                      className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold text-lg py-3 px-10 rounded-full shadow-xl transition duration-500 ease-in-out transform ${showButtons
+                        ? "opacity-100 translate-y-0"
+                        : "opacity-0 translate-y-12"
+                        }`}
                       onClick={() =>
                         navigate(`${loggedInUser ? "/my-meals" : "/login"}`)
                       }
@@ -177,11 +174,10 @@ const Home = () => {
                     </button>
                     <a
                       href="#about"
-                      className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold text-lg py-3 px-10 rounded-full no-underline shadow-xl transition duration-500 ease-in-out transform ${
-                        showButtons
-                          ? "opacity-100 translate-y-0"
-                          : "opacity-0 translate-y-12"
-                      }`}
+                      className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold text-lg py-3 px-10 rounded-full no-underline shadow-xl transition duration-500 ease-in-out transform ${showButtons
+                        ? "opacity-100 translate-y-0"
+                        : "opacity-0 translate-y-12"
+                        }`}
                     >
                       Learn More
                     </a>
@@ -189,11 +185,10 @@ const Home = () => {
                 </div>
                 <a
                   href="#about"
-                  className={`text-white transition-opacity duration-1000 ease-in-out ${
-                    showArrow
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 translate-y-12"
-                  }`}
+                  className={`text-white transition-opacity duration-1000 ease-in-out ${showArrow
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-12"
+                    }`}
                 >
                   <FontAwesomeIcon
                     icon={faChevronDown}
@@ -227,7 +222,7 @@ const Home = () => {
                   </h3>
                   <p className="text-lg text-gray-100">
                     Easily log meals and see how long it's been since you last
-                    had a certain dish.
+                    had a certain meal.
                   </p>
                 </div>
 
