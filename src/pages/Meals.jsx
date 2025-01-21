@@ -84,25 +84,25 @@ const Meals = () => {
       const filteredMeals = meals.filter(
         (meal) => meal.name !== "Freezer" && meal.name !== "Frozen Pizza" && meal.name !== "Mighty Meat Feast Pizza"
       );
-  
+
       if (filteredMeals.length > 0) {
         const mealCounts = filteredMeals.reduce((acc, meal) => {
           acc[meal.name] = (acc[meal.name] || 0) + 1;
           return acc;
         }, {});
-  
+
         const mostFrequent = Object.keys(mealCounts).reduce((a, b) =>
           mealCounts[a] > mealCounts[b] ? a : b
         );
-  
+
         localStorage.setItem("mostFrequentMeal", mostFrequent);
-  
+
       } else {
         localStorage.removeItem("mostFrequentMeal");
       }
     }
   }, [meals]);
-  
+
 
   const toggleModal = (meal_id = null) => {
     setSelectedMealId(meal_id);
@@ -147,18 +147,19 @@ const Meals = () => {
   };
 
   const handleFilterMeals = (e) => {
-    const value = e.target.value; 
+    const value = e.target.value;
     setFilterText(value);
 
     if (value === "") {
-      setMeals(originalMeals);
+      setMeals(originalMeals); // Reset to the original list if the filter text is empty
     } else {
-      const filteredMeals = meals.filter((meal) =>
+      const filteredMeals = originalMeals.filter((meal) =>
         meal.name.toLowerCase().includes(value.toLowerCase())
       );
-      setMeals(filteredMeals);
+      setMeals(filteredMeals); // Update the meals with the filtered list
     }
   };
+
 
   return (
     <>
@@ -177,18 +178,18 @@ const Meals = () => {
         </div>
       ) : (
         <div className="p-12 bg-gray-100  min-h-screen py-32">
-            <div className="flex-grow text-center">
-              {/* <h2 className="text-4xl font-semibold text-gray-900">My Meals</h2> */}
-            </div>
+          <div className="flex-grow text-center">
+            {/* <h2 className="text-4xl font-semibold text-gray-900">My Meals</h2> */}
+          </div>
           <div className="flex justify-between items-center mb-6">
             <input
               type="text"
-              placeholder="Filter Meals"
+              placeholder="Search Meals"
               className="w-full max-w-sm px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-700"
               onChange={(e) => handleFilterMeals(e)}
               value={filterText}
             />
-          
+
             <button
               className="ml-auto px-6 py-3 bg-indigo-500 text-white rounded shadow hover:bg-indigo-600 transition transform hover:scale-110"
               onClick={() => setIsOpen(true)}
@@ -241,7 +242,7 @@ const Meals = () => {
                 ) : (
                   meals.map((meal) => (
                     <tr
-                      key={meal.id}
+                      key={meal.meal_id}
                       className="border-b border-gray-200 hover:bg-gray-100 transition"
                     >
                       <td className="mx-6 py-1 whitespace-nowrap">
