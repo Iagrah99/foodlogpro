@@ -4,8 +4,8 @@ import { Spinner } from "react-bootstrap";
 import { faUser, faLock, faCamera, faCrown, faChartBar, faStar, faUtensils, faDrumstickBite } from "@fortawesome/free-solid-svg-icons";
 import NavigationBar from "../components/NavigationBar";
 import { updateUser } from "../../utils/api";
-import { format } from "date-fns";
 import ToggleTheme from "../components/ToggleTheme";
+import { format } from "date-fns";
 
 const UserProfile = () => {
   const [currentUser] = useState(JSON.parse(localStorage.getItem("loggedInUser")));
@@ -165,7 +165,7 @@ const UserProfile = () => {
                 className="w-full px-4 py-2 border rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring focus:ring-indigo-400 transition"
               />
             ) : (
-              <p className="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg dark:text-white">{user.username}</p>
+              <p className="px-4 py-2 border bg-gray-100 dark:bg-gray-700 rounded-lg dark:text-white">{user.username}</p>
             )}
           </div>
 
@@ -185,9 +185,23 @@ const UserProfile = () => {
                 placeholder="Enter new password"
               />
             ) : (
-              <p className="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg dark:text-white">••••••••</p>
+              <p className="px-4 py-2 bg-gray-100 border dark:bg-gray-700 rounded-lg dark:text-white">••••••••</p>
             )}
           </div>
+
+          {/* Member Since Section */}
+          {!isEditing && (
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium mb-2 dark:text-white">
+                <FontAwesomeIcon icon={faCrown} className="mr-2" />
+                Member Since
+              </label>
+              <p className="px-4 py-2 bg-gray-100 border rounded-lg dark:bg-gray-700 dark:text-white">
+                {format(new Date(currentUser.date_joined), "d MMMM yyyy")}
+              </p>
+            </div>
+          )}
+
 
           {/* Action Buttons */}
           <div className="flex justify-between mt-6">

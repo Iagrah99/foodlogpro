@@ -205,7 +205,7 @@ const Meals = () => {
 
           <div className="overflow-x-auto">
             <table className="min-w-full dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg rounded-lg">
-              <thead className="bg-gray-200 dark:bg-gray-700">
+              <thead className="bg-gray-200 dark:bg-gray-900">
                 <tr>
                   <th className="pl-20 py-3 text-left text-base font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                     Image

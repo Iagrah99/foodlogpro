@@ -1,14 +1,13 @@
-import { useContext } from 'react';
-import { ThemeContext } from '../contexts/ThemeContext';
+import { useContext } from "react";
 import { Form } from "react-bootstrap";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 const ToggleTheme = () => {
-  const { userTheme, setUserTheme } = useContext(ThemeContext);
+  const { darkMode, setDarkMode } = useContext(ThemeContext);
 
   const toggleTheme = () => {
-    setUserTheme((currentTheme) => { currentTheme === "light" ? "dark" : "light" })
-
-  }
+    setDarkMode(!darkMode);
+  };
 
   return (
     <Form className="mb-3">
@@ -16,10 +15,10 @@ const ToggleTheme = () => {
         className="text-2xl"
         id="theme-switch"
         onChange={toggleTheme}
-      // checked={true}
+        checked={darkMode} // Sync the switch with the theme
       />
     </Form>
-  )
-}
+  );
+};
 
-export default ToggleTheme
+export default ToggleTheme;
