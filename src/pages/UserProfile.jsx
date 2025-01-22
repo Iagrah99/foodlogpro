@@ -5,6 +5,7 @@ import { faUser, faLock, faCamera, faCrown, faChartBar, faStar, faUtensils, faDr
 import NavigationBar from "../components/NavigationBar";
 import { updateUser } from "../../utils/api";
 import { format } from "date-fns";
+import ToggleTheme from "../components/ToggleTheme";
 
 const UserProfile = () => {
   const [currentUser] = useState(JSON.parse(localStorage.getItem("loggedInUser")));
@@ -107,20 +108,25 @@ const UserProfile = () => {
   return (
     <>
       <NavigationBar avatarUpdated={avatarUpdated} setAvatarUpdated={setAvatarUpdated} />
-      <div className="flex justify-center items-start min-h-screen pt-28 bg-gray-100">
+      <div className="flex justify-center items-start min-h-screen pt-28 bg-gray-100 dark:bg-neutral-900">
         {/* Main Profile Section */}
-        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg mt-10">
-          <h1 className="text-2xl font-bold mb-6 text-center">User Profile</h1>
+        <div className="p-6 rounded-lg shadow-lg w-full max-w-lg mt-10 dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900">
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-2xl font-bold text-center flex-grow dark:text-white">
+              User Profile
+            </h1>
+            <ToggleTheme />
+          </div>
 
           {/* Avatar Section */}
           <div className="flex flex-col items-center mb-6 relative">
             <img
               src={updatedUser.avatar}
               alt="User Avatar"
-              className={`h-48 w-48 rounded-full shadow-lg object-cover transition-opacity ${isSaving ? "opacity-50" : "opacity-100"}`}
+              className={`h-48 w-48 rounded-full shadow-lg object-cover transition-opacity dark:shadow-lg dark:shadow-indigo-800 ${isSaving ? "opacity-50" : "opacity-100"}`}
             />
             {isSaving && (
-              <div className="absolute h-48 w-48 rounded-full flex flex-col justify-center items-center bg-black bg-opacity-50 text-white">
+              <div className="absolute h-48 w-48 rounded-full flex flex-col justify-center items-center bg-black bg-opacity-70 text-white">
                 <Spinner animation="border" role="status" style={{ width: "2rem", height: "2rem" }} />
                 <span className="mt-2">Uploading...</span>
               </div>
@@ -146,7 +152,7 @@ const UserProfile = () => {
 
           {/* Username Section */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2">
+            <label className="block text-gray-700 font-medium mb-2 dark:text-gray-300">
               <FontAwesomeIcon icon={faUser} className="mr-2" />
               Username
             </label>
@@ -156,16 +162,16 @@ const UserProfile = () => {
                 name="username"
                 value={updatedUser.username}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-indigo-300"
+                className="w-full px-4 py-2 border rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring focus:ring-indigo-400 transition"
               />
             ) : (
-              <p className="px-4 py-2 bg-gray-100 rounded-lg">{user.username}</p>
+              <p className="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg dark:text-white">{user.username}</p>
             )}
           </div>
 
           {/* Password Section */}
           <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2">
+            <label className="block text-gray-700 font-medium mb-2 dark:text-gray-300">
               <FontAwesomeIcon icon={faLock} className="mr-2" />
               Password
             </label>
@@ -175,26 +181,13 @@ const UserProfile = () => {
                 name="password"
                 value={updatedUser.password}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-indigo-300"
+                className="w-full px-4 py-2 border rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring focus:ring-indigo-400 transition"
                 placeholder="Enter new password"
               />
             ) : (
-              <p className="px-4 py-2 bg-gray-100 rounded-lg">••••••••</p>
+              <p className="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg dark:text-white">••••••••</p>
             )}
           </div>
-
-          {/* Member Since Section */}
-          {!isEditing && (
-            <div className="mb-4">
-              <label className="block text-gray-700 font-medium mb-2">
-                <FontAwesomeIcon icon={faCrown} className="mr-2" />
-                Member Since
-              </label>
-              <p className="px-4 py-2 bg-gray-100 rounded-lg">
-                {format(new Date(currentUser.date_joined), "d MMMM yyyy")}
-              </p>
-            </div>
-          )}
 
           {/* Action Buttons */}
           <div className="flex justify-between mt-6">
@@ -214,9 +207,9 @@ const UserProfile = () => {
                   onClick={() => {
                     setIsEditing(false);
                     setUpdatedUser(user);
-                    setIsSaving(false)
+                    setIsSaving(false);
                   }}
-                  className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg shadow hover:bg-gray-400 transition"
+                  className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg shadow hover:bg-gray-400 transition dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500"
                 >
                   Cancel
                 </button>
@@ -233,9 +226,11 @@ const UserProfile = () => {
         </div>
 
         {/* User Stats Sidebar */}
-        <div className="bg-white p-6 rounded-lg shadow-lg w-fit ml-8 mt-10">
-          <h2 className="text-gray-700 text-2xl text-center font-bold mb-4">User Statistics</h2>
-          <div className="bg-gray-100 rounded-lg p-4 space-y-3">
+        <div className="p-6 rounded-lg shadow-lg w-fit ml-8 mt-10 dark:bg-gradient-to-r dark:from-gray-800 dark:to-gray-900">
+          <h2 className="text-gray-700 text-2xl text-center font-bold mb-4 dark:text-white">
+            User Statistics
+          </h2>
+          <div className="bg-gray-100 rounded-lg p-4 space-y-3 dark:bg-gray-800 dark:text-white">
             {/* Meals Logged */}
             <div className="flex items-center">
               <FontAwesomeIcon icon={faUtensils} className="text-indigo-500 mr-2" />
@@ -251,9 +246,10 @@ const UserProfile = () => {
           </div>
         </div>
       </div>
+
     </>
   );
 
 };
 
-export default UserProfile;
+export default UserProfile

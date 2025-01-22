@@ -27,7 +27,7 @@ const Login = () => {
   useEffect(() => {
     if (message) {
       // Clear the message after 3 seconds
-      const timer = setTimeout(() => {  
+      const timer = setTimeout(() => {
         setMessage("");
         if (isSessionExpired) {
           localStorage.removeItem("sessionExpired");
@@ -42,7 +42,7 @@ const Login = () => {
       return () => clearTimeout(timer); // Cleanup the timer on component unmount
     }
   }, [message, isSessionExpired, location.pathname, navigate]); // Dependencies to rerun when message changes
-  
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
@@ -106,7 +106,7 @@ const Login = () => {
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
         {/* Login Card */}
-        <div className="relative w-full max-w-md bg-white rounded-lg shadow-xl ring-1 ring-gray-300 p-8">
+        <div className="relative w-full max-w-md bg-slate-50 rounded-lg shadow-xl ring-1 ring-gray-300 p-8">
           <h2 className="text-3xl font-semibold text-center text-indigo-600 mb-6">
             Welcome Back!
           </h2>

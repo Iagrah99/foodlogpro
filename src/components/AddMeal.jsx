@@ -125,58 +125,49 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
 
   return (
     <div
-      className={`fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50
+      className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50
     ${isVisible ? 'opacity-100' : 'opacity-0'} 
     transition-opacity duration-500`}
     >
       <div
         ref={modalRef} // Attach the ref to the modal container
-        className={`bg-white rounded-lg shadow-lg w-96 p-6 transform transition-transform duration-300 
+        className={`bg-slate-50 dark:bg-gray-800 rounded-lg shadow-lg w-96 p-6 transform transition-transform duration-300 
       ${isVisible ? 'scale-100 translate-y-0' : 'scale-90 translate-y-4'}`}
       >
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Add New Meal</h2>
+        <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">Add New Meal</h2>
         <div className="space-y-6">
           <form onSubmit={(e) => e.preventDefault()}>
             <div>
-              <label className="block text-sm font-medium text-gray-700 my-2">Name</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 my-2">Name</label>
               <input
                 required
                 type="text"
                 value={name}
                 onChange={handleInputChange(setName)}
-                className="p-2 w-full border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                className="p-2 w-full border rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 my-2">Source</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 my-2">Source</label>
               <input
                 required
                 type="text"
                 value={source}
                 onChange={handleInputChange(setSource)}
-                className="p-2 w-full border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                className="p-2 w-full border rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
               />
             </div>
-            {/* <div>
-              <label className="block text-sm font-medium text-gray-700 my-2">Ingredients (comma-separated)</label>
-              <input
-                type="text"
-                value={ingredientsStr}
-                onChange={handleInputChange(setIngredientsStr)}
-                className="p-2 w-full border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            </div> */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 my-2">Last Eaten</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 my-2">Last Eaten</label>
               <input
                 type="date"
                 value={lastEaten}
                 onChange={handleInputChange(setLastEaten)}
-                className="p-2 w-full border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                className="p-2 w-full border rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 my-2">Rating</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 my-2">Rating</label>
               <input
                 required
                 type="number"
@@ -191,17 +182,16 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
                     setIsError(false); // Reset error on rating change
                   }
                 }}
-                className="p-2 w-full border rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                className="p-2 w-full border rounded-md focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 my-2">Image</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 my-2">Image</label>
               <input
                 type="file"
                 accept="image/*"
                 id="image"
-                className="block w-full px-3 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg shadow-sm bg-gray-50 placeholder-gray-400
-             hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer"
+                className="block w-full px-3 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg shadow-sm bg-gray-50 placeholder-gray-400 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:placeholder-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer"
                 onChange={(e) => {
                   const file = e.target.files[0];
                   setImageFile(file);
@@ -254,6 +244,7 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
       </div>
     </div>
   );
+
 };
 
 export default AddMeal;

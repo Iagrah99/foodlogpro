@@ -23,12 +23,11 @@ const Footer = () => {
 
   return (
     <footer
-      className={`fixed bottom-0 w-full z-10 transition-all duration-300 ease-in-out ${isScrolled ? "bg-gray-100 text-gray-900" : "bg-transparent text-gray-900"
-        }`}
+      className={`fixed bottom-0 w-full z-10 transition-all duration-300 ease-in-out ${isScrolled ? "bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white" : "bg-transparent text-gray-900 dark:bg-transparent dark:text-white"}`}
     >
       <div className="container mx-auto flex justify-between items-center py-2 px-6">
         {/* Left side content */}
-        <div className="text-gray-600 text-sm flex items-center">
+        <div className="text-gray-600 text-sm flex items-center dark:text-gray-300">
           <a>&copy; 2025 FoodLogPro. All rights reserved.</a>
         </div>
 
@@ -36,19 +35,20 @@ const Footer = () => {
         <div className="lg:block space-x-6 flex items-center">
           <a
             href="/faq"
-            className={`text-sm ${isScrolled ? "text-gray-800" : "text-gray-200"} font-semibold no-underline transition duration-300 py-2 px-6 rounded-lg`}
+            className={`text-sm ${isScrolled ? "text-gray-800 dark:text-gray-300" : "text-gray-200 dark:text-gray-400"} font-semibold no-underline transition duration-300 py-2 px-6 rounded-lg`}
           >
             FAQ
           </a>
           <a
             href="/"
-            className={`text-sm ${isScrolled ? "text-gray-800" : "text-gray-200"} font-semibold no-underline transition duration-300 py-2 px-6 rounded-lg`}
+            className={`text-sm ${isScrolled ? "text-gray-800 dark:text-gray-300" : "text-gray-200 dark:text-gray-400"} font-semibold no-underline transition duration-300 py-2 px-6 rounded-lg`}
           >
             Privacy Policy
           </a>
         </div>
       </div>
     </footer>
+
   );
 };
 

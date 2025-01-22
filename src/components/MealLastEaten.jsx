@@ -39,12 +39,13 @@ const MealLastEaten = ({ value, onSave }) => {
           onChange={(e) => setTempValue(e.target.value)}
           onBlur={handleSave}
           onKeyDown={handleKeyDown}
-          className="border border-gray-300 rounded px-2 py-1"
+          className="border border-gray-300 rounded px-2 py-1 focus:ring-indigo-500 focus:border-indigo-500 
+          dark:bg-gray-700 dark:text-white dark:border-indigo-500"
         />
       ) : (
         <span
           onClick={() => setIsEditing(true)}
-          className="cursor-pointer text-center"
+          className="cursor-pointer text-center dark:text-gray-300"
           title="Edit Date"
         >
           {value ? format(new Date(value), 'EEEE, dd/MM/yyyy') : 'N/A'}
@@ -52,6 +53,7 @@ const MealLastEaten = ({ value, onSave }) => {
       )}
     </div>
   );
+
 };
 
 export default MealLastEaten;

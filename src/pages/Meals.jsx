@@ -177,15 +177,15 @@ const Meals = () => {
           </button>
         </div>
       ) : (
-        <div className="p-12 bg-gray-100  min-h-screen py-32">
+        <div className="p-12 bg-gray-100 dark:bg-neutral-900 min-h-screen py-32">
           <div className="flex-grow text-center">
-            {/* <h2 className="text-4xl font-semibold text-gray-900">My Meals</h2> */}
+            {/* <h2 className="text-4xl font-semibold text-gray-900 dark:text-white">My Meals</h2> */}
           </div>
           <div className="flex justify-between items-center mb-6">
             <input
               type="text"
               placeholder="Search Meals"
-              className="w-full max-w-sm px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-700"
+              className="w-full max-w-sm px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-700 dark:bg-gray-700 dark:text-white dark:border-gray-600"
               onChange={(e) => handleFilterMeals(e)}
               value={filterText}
             />
@@ -204,29 +204,28 @@ const Meals = () => {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border border-gray-200 shadow-lg rounded-lg">
-              <thead className="bg-gray-200">
+            <table className="min-w-full dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg rounded-lg">
+              <thead className="bg-gray-200 dark:bg-gray-700">
                 <tr>
-                  <th className="pl-20 py-3 text-left text-base font-medium text-gray-600 uppercase tracking-wider">
+                  <th className="pl-20 py-3 text-left text-base font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                     Image
                   </th>
-                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">
+                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                     Name
                   </th>
-                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">
+                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                     Source
                   </th>
-                  {/* <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">Ingredients</th> */}
                   <th
-                    className="px-10 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider"
+                    className="px-10 py-3 text-center text-base font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider"
                     style={{ minWidth: "200px" }}
                   >
                     Last Eaten
                   </th>
-                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">
+                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                     Rating
                   </th>
-                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 uppercase tracking-wider">
+                  <th className="px-5 py-3 text-center text-base font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                     &nbsp;
                   </th>
                 </tr>
@@ -234,31 +233,26 @@ const Meals = () => {
               <tbody>
                 {meals.length === 0 ? (
                   <tr>
-                    <td colSpan="7" className="text-center py-12 text-gray-800">
-                      No meals to display. Please add some meals to see them
-                      here.
+                    <td colSpan="7" className="text-center py-12 text-gray-800 dark:text-gray-300">
+                      No meals to display. Please add some meals to see them here.
                     </td>
                   </tr>
                 ) : (
                   meals.map((meal) => (
                     <tr
                       key={meal.meal_id}
-                      className="border-b border-gray-200 hover:bg-gray-100 transition"
+                      className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                     >
                       <td className="mx-6 py-1 whitespace-nowrap">
                         {meal.image ? (
                           <MealImage
-                            value={meal.image} // Pass the current image URL as the initial value
+                            value={meal.image}
                             onSave={(newImageUrl) => {
-                              handleUpdateMeal(
-                                meal.meal_id,
-                                newImageUrl,
-                                "image"
-                              ); // Update the meal with the new image URL
+                              handleUpdateMeal(meal.meal_id, newImageUrl, "image");
                             }}
                           />
                         ) : (
-                          <div className="w-16 h-16 bg-gray-300 rounded"></div>
+                          <div className="w-16 h-16 bg-gray-300 rounded dark:bg-gray-600"></div>
                         )}
                       </td>
                       <MealName
@@ -273,30 +267,14 @@ const Meals = () => {
                           handleUpdateMeal(meal.meal_id, newValue, "source");
                         }}
                       />
-                      {/* <td className="px-2 py-4 text-base text-gray-700">
-                        <div className="flex flex-wrap gap-2">
-                          {meal.ingredients.map((ingredient, index) => (
-                            <span
-                              key={index}
-                              className="bg-gray-200 text-center rounded-full px-4 py-2 text-gray-700"
-                            >
-                              {ingredient.trim()}
-                            </span>
-                          ))}
-                        </div>
-                      </td> */}
                       <td
-                        className="px-2 py-4 whitespace-nowrap text-center text-base text-gray-600"
+                        className="px-2 py-4 whitespace-nowrap text-center text-base text-gray-600 dark:text-gray-300"
                         style={{ minWidth: "200px" }}
                       >
                         <MealLastEaten
                           value={meal.last_eaten}
                           onSave={(newDate) =>
-                            handleUpdateMeal(
-                              meal.meal_id,
-                              newDate,
-                              "last_eaten"
-                            )
+                            handleUpdateMeal(meal.meal_id, newDate, "last_eaten")
                           }
                         />
                       </td>
@@ -363,6 +341,7 @@ const Meals = () => {
       )}
     </>
   );
+
 };
 
 export default Meals;

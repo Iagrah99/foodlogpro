@@ -117,14 +117,14 @@ const Home = () => {
       {isMobileView ? (
         <div className="w-full bg-yellow-100 text-center py-6">
           <p className="text-xl text-gray-900 font-semibold">
-            We have detected that you are using a mobile device, please download
+            We have detected that you are using a mobile device, please use
             our mobile app instead, thank you!
           </p>
         </div>
       ) : (
         <>
           <NavigationBar page="home" />
-          <div className="flex flex-col items-center px-0 sm:px-8 lg:px-16 text-gray-900 min-h-screen">
+          <div className="flex flex-col items-center px-0 sm:px-8 lg:px-16 text-gray-900 min-h-screen  dark:bg-gray-900 dark:text-white">
             <header className="text-center mb-12 min-h-screen min-w-full relative">
               {/* Lazy-loaded background image */}
               <img
@@ -200,10 +200,10 @@ const Home = () => {
 
             <section
               id="about"
-              className="w-full min-h-screen flex flex-col justify-between max-w-7xl text-center bg-white pt-32 pb-12 mb-12 font-sans"
+              className="w-full min-h-screen flex flex-col justify-between max-w-7xl text-center pt-32 pb-12 mb-12 font-sans dark:bg-gray-900 dark:text-white"
             >
               <div className="mt-16">
-                <h2 className="text-4xl font-semibold m-auto pb-4 text-gray-900 mb-12 border-b-4 border-indigo-500 w-max">
+                <h2 className="text-4xl font-semibold m-auto pb-4 text-gray-900 mb-12 border-b-4 border-indigo-500 w-max dark:text-white dark:border-indigo-400">
                   Why Use FoodLogPro?
                 </h2>
               </div>
@@ -262,7 +262,7 @@ const Home = () => {
                   </p>
                 </div>
               </div>
-              <a href="#testimonials" className="text-black mt-15 block">
+              <a href="#testimonials" className="text-indigo-600 mt-15 block dark:text-indigo-500">
                 <FontAwesomeIcon
                   icon={faChevronDown}
                   className="text-4xl animate-bounce"
@@ -273,10 +273,10 @@ const Home = () => {
             {/* Testimonials Section - White Background */}
             <section
               id="testimonials"
-              className="w-full min-h-screen flex flex-col justify-between max-w-7xl mt-20 text-center bg-white pt-24 pb-16"
+              className="w-full min-h-screen flex flex-col justify-between max-w-7xl mt-20 text-center pt-24 pb-16 dark:bg-gray-900 dark:text-white"
             >
               <div className="mt-16">
-                <h2 className="text-4xl font-semibold m-auto pb-4 text-gray-900 mb-12 border-b-4 border-indigo-500 w-max">
+                <h2 className="text-4xl font-semibold m-auto pb-4 text-gray-900 mb-12 border-b-4 border-indigo-500 w-max dark:text-white dark:border-indigo-400">
                   What Our Users Say
                 </h2>
               </div>
@@ -284,9 +284,9 @@ const Home = () => {
                 {/* Testimonial 1 */}
                 <div
                   ref={(el) => (testimonialRefs.current[0] = el)}
-                  className="testimonial bg-gray-100 p-10 rounded-lg shadow-lg flex flex-col items-center justify-between h-full"
+                  className="testimonial bg-gray-100 p-10 rounded-lg shadow-lg flex flex-col items-center justify-between h-full dark:bg-gray-700"
                 >
-                  <p className="text-lg text-gray-700 italic mb-6">
+                  <p className="text-lg text-gray-700 italic mb-6 dark:text-gray-200">
                     "FoodLogPro has completely changed how I approach dinner
                     planning. I love the simplicity and ease of tracking!"
                   </p>
@@ -296,7 +296,7 @@ const Home = () => {
                     className="w-48 h-48 rounded-full border-4 border-indigo-500 mb-6 shadow-lg"
                   />
                   <div className="flex justify-center">
-                    <p className="text-xl text-gray-900 font-semibold">
+                    <p className="text-xl text-gray-900 font-semibold dark:text-white">
                       — Alex T.
                     </p>
                   </div>
@@ -305,9 +305,9 @@ const Home = () => {
                 {/* Testimonial 2 */}
                 <div
                   ref={(el) => (testimonialRefs.current[1] = el)}
-                  className="testimonial bg-gray-100 p-10 rounded-lg shadow-lg flex flex-col items-center justify-between h-full"
+                  className="testimonial bg-gray-100 p-10 rounded-lg shadow-lg flex flex-col items-center justify-between h-full dark:bg-gray-700"
                 >
-                  <p className="text-lg text-gray-700 italic mb-6">
+                  <p className="text-lg text-gray-700 italic mb-6 dark:text-gray-200">
                     "A fantastic tool for keeping track of my meals. I no longer
                     struggle with deciding what to cook!"
                   </p>
@@ -317,7 +317,7 @@ const Home = () => {
                     className="w-48 h-48 rounded-full border-4 border-indigo-500 mb-6 shadow-lg"
                   />
                   <div className="flex justify-center">
-                    <p className="text-xl text-gray-900 font-semibold">
+                    <p className="text-xl text-gray-900 font-semibold dark:text-white">
                       — Sarah H.
                     </p>
                   </div>
@@ -325,7 +325,7 @@ const Home = () => {
               </div>
 
               <div>
-                <a href="#cta" className="text-black block">
+                <a href="#cta" className="text-indigo-600 block dark:text-indigo-500">
                   <FontAwesomeIcon
                     icon={faChevronDown}
                     className="text-4xl animate-bounce"
@@ -338,13 +338,13 @@ const Home = () => {
             <div
               id="cta"
               ref={ctaRef}
-              className="cta-section min-h-screen flex flex-col justify-evenly  mt-16 w-full max-w-7xl text-center bg-white py-16"
+              className="cta-section min-h-screen flex flex-col justify-evenly  mt-16 w-full max-w-7xl text-center py-16 dark:bg-gray-900 dark:text-white"
             >
               <div>
-                <h2 className="text-4xl font-bold text-gray-900 mb-6">
+                <h2 className="text-4xl font-bold text-gray-900 mb-6 dark:text-white">
                   Ready to Make Meal Tracking Easy?
                 </h2>
-                <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
+                <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto dark:text-gray-200">
                   Join FoodLogPro today and start your journey to healthier
                   eating. Track meals, plan ahead, and get insightful health
                   tips—all in one place.
@@ -358,7 +358,7 @@ const Home = () => {
                   </button>
                 </div>
               </div>
-              <a href="#" className="text-black mt-15 block">
+              <a href="#" className="text-indigo-600 mt-15 block dark:text-indigo-500">
                 <FontAwesomeIcon
                   icon={faChevronUp}
                   className="text-4xl animate-bounce"
@@ -367,6 +367,7 @@ const Home = () => {
             </div>
             <Footer />
           </div>
+
         </>
       )}
     </>

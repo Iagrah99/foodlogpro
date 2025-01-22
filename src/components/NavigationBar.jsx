@@ -55,14 +55,14 @@ const NavigationBar = ({ avatarUpdated, setAvatarUpdated }) => {
     <>
       {/* Navigation Bar */}
       <nav
-        className={`fixed w-full z-50 transition-all duration-300 ease-in-out ${isScrolled ? "bg-gray-100 text-gray-900 shadow-md" : "bg-transparent text-white shadow-none"
-          }`}
+        className={`fixed w-full z-50 transition-all duration-300 ease-in-out ${isScrolled
+          ? "bg-gray-100 text-gray-900 shadow-md dark:bg-gray-800 dark:text-white dark:shadow-md"
+          : "bg-transparent text-white shadow-none dark:bg-transparent dark:text-white"}`}
       >
         <div className="container mx-auto flex items-center justify-between py-4 px-6">
           <a
             href="/"
-            className={`${isScrolled ? "text-green-500" : "text-green-300"
-              } text-4xl font-semibold no-underline text-shadow-lg`}
+            className={`${isScrolled ? "text-green-500" : "text-green-300"} text-4xl font-semibold no-underline text-shadow-lg dark:text-green-400`}
           >
             FoodLogPro
           </a>
@@ -78,8 +78,7 @@ const NavigationBar = ({ avatarUpdated, setAvatarUpdated }) => {
                 />
                 <button
                   onClick={toggleModal}
-                  className={`text-2xl ${isScrolled ? "text-gray-800" : "text-gray-200"
-                    } font-semibold no-underline transition duration-300 py-2 px-6 rounded-lg`}
+                  className={`text-2xl ${isScrolled ? "text-gray-800" : "text-gray-200"} font-semibold no-underline transition duration-300 py-2 px-6 rounded-lg dark:text-gray-200 dark:hover:text-white`}
                 >
                   Logout
                 </button>
@@ -88,15 +87,13 @@ const NavigationBar = ({ avatarUpdated, setAvatarUpdated }) => {
               <>
                 <a
                   href="/login"
-                  className={`text-2xl ${isScrolled ? "text-gray-800" : "text-gray-200"
-                    } font-semibold no-underline transition duration-300 py-2 px-6 rounded-lg`}
+                  className={`text-2xl ${isScrolled ? "text-gray-800" : "text-gray-200"} font-semibold no-underline transition duration-300 py-2 px-6 rounded-lg dark:text-gray-200 dark:hover:text-white`}
                 >
                   Login
                 </a>
                 <a
                   href="/register"
-                  className={`text-2xl ${isScrolled ? "text-gray-800" : "text-gray-200"
-                    } font-semibold no-underline transition duration-300 py-2 px-6 rounded-lg`}
+                  className={`text-2xl ${isScrolled ? "text-gray-800" : "text-gray-200"} font-semibold no-underline transition duration-300 py-2 px-6 rounded-lg dark:text-gray-200 dark:hover:text-white`}
                 >
                   Sign Up
                 </a>
@@ -105,6 +102,7 @@ const NavigationBar = ({ avatarUpdated, setAvatarUpdated }) => {
           </div>
         </div>
       </nav>
+
 
       {/* Logout Confirmation Modal */}
       {isModalOpen && (

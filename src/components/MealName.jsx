@@ -32,7 +32,7 @@ const MealName = ({ value, onSave }) => {
   }, [tempValue, isEditing]);
 
   return (
-    <td className="px-2 py-2 whitespace-nowrap text-center text-base font-medium text-gray-900">
+    <td className="px-2 py-2 whitespace-nowrap text-center text-base font-medium text-gray-900 dark:text-gray-300">
       {isEditing ? (
         <input
           type="text"
@@ -41,7 +41,7 @@ const MealName = ({ value, onSave }) => {
           onBlur={handleSave} // Save when focus is lost
           onKeyDown={handleKeyDown}
           style={{ width: `${inputWidth}px` }}
-          className="px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="px-2 py-1 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-gray-900 dark:text-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
           autoFocus
         />
       ) : (
@@ -56,6 +56,7 @@ const MealName = ({ value, onSave }) => {
       )}
     </td>
   );
+
 };
 
 export default MealName;
