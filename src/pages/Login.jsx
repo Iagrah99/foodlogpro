@@ -179,13 +179,13 @@ const Login = () => {
                 </label>
               </div>
 
-              <button
+              {/* <button
                 type="button"
                 onClick={() => setIsModalOpen(true)}
                 className="font-medium text-indigo-600 hover:text-indigo-500 text-sm"
               >
                 Forgot your password?
-              </button>
+              </button> */}
             </div>
 
             <button
