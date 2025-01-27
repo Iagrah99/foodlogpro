@@ -14,7 +14,7 @@ const NavigationBar = ({ avatarUpdated, setAvatarUpdated }) => {
   const handleLogout = () => {
     setLoggedInUser(null);
     localStorage.removeItem("loggedInUser");
-    navigate("/login", { state: { message: "You have been logged out successfully." } });
+    navigate("/login", { state: { msg: "You have been logged out successfully." } });
   };
 
 

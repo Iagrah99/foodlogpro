@@ -14,34 +14,22 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [message, setMessage] = useState(() => {
-    // Initialise with the passed message or fallback to sessionExpired if present
-    return localStorage.getItem("sessionExpired") || location.state?.message || "";
-  });
-
-  const [isSessionExpired, setIsSessionExpired] = useState(
-    localStorage.getItem("sessionExpired")
-  );
+  const [message, setMessage] = useState(location.state?.msg || "");
 
   // Set up a timer to remove the message after 3 seconds
   useEffect(() => {
     if (message) {
       // Clear the message after 3 seconds
       const timer = setTimeout(() => {
-        setMessage("");
-        if (isSessionExpired) {
-          localStorage.removeItem("sessionExpired");
-          setIsSessionExpired(false);
-        }
+        setMessage("")
       }, 3000);
 
       // Clear location.state to prevent the message from reappearing on reload
       navigate(location.pathname, { replace: true });
-      setIsSessionExpired(false)
 
       return () => clearTimeout(timer); // Cleanup the timer on component unmount
     }
-  }, [message, isSessionExpired, location.pathname, navigate]); // Dependencies to rerun when message changes
+  }, [message, location.pathname, navigate]); // Dependencies to rerun when message changes
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -210,16 +198,6 @@ const Login = () => {
           {isLoggingIn && (
             <div className="flex items-center justify-center mt-3 text-indigo-500">
               <Spinner animation="border" role="status" />
-            </div>
-          )}
-
-          {isSessionExpired && (
-            <div
-              role="alert"
-              aria-live="assertive"
-              className="mt-4 text-center text-red-500 text-sm font-semibold"
-            >
-              Your session has expired. Please log in again.
             </div>
           )}
 
