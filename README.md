@@ -1,6 +1,6 @@
 # FoodLogPro
 
-Welcome to **FoodLogPro**, a full-stack web application designed to help users track and manage their tea and dinner meals. Originally created to streamline meal tracking for family use, this platform allows users to log meals, manage their account, and view insightful meal statistics.
+Welcome to **FoodLogPro**, a full-stack web application designed to help users track and manage their tea/dinner meals. Originally created to streamline meal tracking for family use, this platform allows users to log meals, manage their account, and view insightful meal statistics.
 
 ## Table of Contents
 1. [Project Overview](#project-overview)
@@ -66,7 +66,6 @@ The hosted version can be found [here](https://foodlogpro.vercel.app/).
 
    ```bash
    git clone https://github.com/Iagrah99/foodlogpro.git
-   cd foodlogpro
 
  1B. Change from the current directory into the project folder
    
