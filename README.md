@@ -51,10 +51,10 @@ The hosted version can be found [here](https://foodlogpro.vercel.app/).
 
 ### Security & Authorisation
 - **bcrypt**: Ensures secure password hashing.
-- **JSON Web Tokens (JWT)**: Manages user authentication and authorization.
+- **JSON Web Tokens (JWT)**: Manages user authentication and authorisation.
 
 ### Image Storage
-- **Image Uploads**: Enables users to upload meal images for better visualization.
+- **Image Uploads**: Enables users to upload meal images for better visualisation.
 
 ## Installation & Setup
 
