@@ -136,7 +136,7 @@ const UserProfile = () => {
   };
 
   if (!currentUser) {
-    return <Spinner animation="border" role="status" />;
+    return <Spinner animation="border" role="status" hidden />;
   }
 
   return (
