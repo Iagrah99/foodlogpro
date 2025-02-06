@@ -88,7 +88,7 @@ The hosted version can be found [here](https://foodlogpro.vercel.app/).
    npm install
    ```
 
-   2b. Create a .env file and inside store the API keys for both IMGBB and The Dog API that you signed up for earlier.
+   2b. Create a .env file and inside store the API key for IMGBB that you signed up for earlier.
 
    ```
    VITE_IMGBB_API_KEY="Your key here"
