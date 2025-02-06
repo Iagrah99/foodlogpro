@@ -1,29 +1,56 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Spinner } from "react-bootstrap";
 import { faUser, faLock, faCamera, faCrown, faChartBar, faStar, faUtensils, faDrumstickBite } from "@fortawesome/free-solid-svg-icons";
 import NavigationBar from "../components/NavigationBar";
-import { updateUser } from "../../utils/api";
+import { updateUser, getUser } from "../../utils/api.js"; // Import the getUser function
 import ToggleTheme from "../components/ToggleTheme";
 import { format } from "date-fns";
 
 const UserProfile = () => {
-  const [currentUser] = useState(JSON.parse(localStorage.getItem("loggedInUser")));
+  const [currentUser, setCurrentUser] = useState(null);
   const [avatarUpdated, setAvatarUpdated] = useState(false);
   const [userMealsNum] = useState(JSON.parse(localStorage.getItem("userMealsNum")));
   const [mostFrequentMeal] = useState(localStorage.getItem("mostFrequentMeal"));
 
   const [user, setUser] = useState({
-    user_id: currentUser.user_id,
-    username: currentUser.username,
+    user_id: "",
+    username: "",
     password: "",
-    avatar: currentUser.avatar,
+    avatar: "",
   });
   const [isEditing, setIsEditing] = useState(false);
   const [updatedUser, setUpdatedUser] = useState({ ...user });
   const [avatarUrl, setAvatarUrl] = useState("");
   const [isSaving, setIsSaving] = useState(false); // New state for saving/loading
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = JSON.parse(localStorage.getItem("token"));
+        const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+        const {user_id} = loggedInUser;
+        const userData = await getUser(token, user_id);
+        setCurrentUser(userData);
+        setUser({
+          user_id: userData.user_id,
+          username: userData.username,
+          password: "",
+          avatar: userData.avatar,
+        });
+        setUpdatedUser({
+          user_id: userData.user_id,
+          username: userData.username,
+          password: "",
+          avatar: userData.avatar,
+        });
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -104,6 +131,10 @@ const UserProfile = () => {
       console.error("Error updating user:", err);
     }
   };
+
+  if (!currentUser) {
+    return <Spinner animation="border" role="status" />;
+  }
 
   return (
     <>
@@ -202,7 +233,6 @@ const UserProfile = () => {
             </div>
           )}
 
-
           {/* Action Buttons */}
           <div className="flex justify-between mt-6">
             {isEditing ? (
@@ -260,10 +290,8 @@ const UserProfile = () => {
           </div>
         </div>
       </div>
-
     </>
   );
-
 };
 
-export default UserProfile
+export default UserProfile;
