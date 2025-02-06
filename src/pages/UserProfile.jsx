@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Spinner } from "react-bootstrap";
 import { faUser, faLock, faCamera, faCrown, faChartBar, faStar, faUtensils, faDrumstickBite } from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +13,8 @@ const UserProfile = () => {
   const [avatarUpdated, setAvatarUpdated] = useState(false);
   const [userMealsNum] = useState(JSON.parse(localStorage.getItem("userMealsNum")));
   const [mostFrequentMeal] = useState(localStorage.getItem("mostFrequentMeal"));
+
+  const navigate = useNavigate();
 
   const [user, setUser] = useState({
     user_id: "",
@@ -288,6 +291,12 @@ const UserProfile = () => {
               <span className="ml-2">{mostFrequentMeal}</span>
             </div>
           </div>
+          <button
+            onClick={() => navigate("/my-meals")}
+            className="bg-indigo-500 text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-600 transition mt-4 w-full"
+          >
+            View Meals
+          </button>
         </div>
       </div>
     </>
