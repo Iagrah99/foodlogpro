@@ -49,12 +49,14 @@ const Meals = () => {
       setLoggedInUser(null);
       localStorage.removeItem("loggedInUser");
       localStorage.removeItem("token");
-      navigate("/login", {state: {"msg": "Your session has expired, please log in again."}});
+      navigate("/login", {
+        state: { msg: "Your session has expired, please log in again." },
+      });
     }
 
     const fetchMeals = async () => {
       setIsLoading(true);
-
+      setFilterText("");
       try {
         const token = JSON.parse(localStorage.getItem("token"));
         // console.log(token)
@@ -65,7 +67,7 @@ const Meals = () => {
           JSON.stringify(mealsFromApi.length)
         );
         setMeals(mealsFromApi);
-        setOriginalMeals(mealsFromApi)
+        setOriginalMeals(mealsFromApi);
         setIsLoading(false);
       } catch (err) {
         setIsLoading(false);
@@ -79,9 +81,12 @@ const Meals = () => {
 
   useEffect(() => {
     if (meals.length > 0) {
-      // Filter out "freezer" and "frozen pizza"  
+      // Filter out "freezer" and "frozen pizza"
       const filteredMeals = meals.filter(
-        (meal) => meal.name !== "Freezer" && meal.name !== "Frozen Pizza" && meal.name !== "Mighty Meat Feast Pizza"
+        (meal) =>
+          meal.name !== "Freezer" &&
+          meal.name !== "Frozen Pizza" &&
+          meal.name !== "Mighty Meat Feast Pizza"
       );
 
       if (filteredMeals.length > 0) {
@@ -95,13 +100,11 @@ const Meals = () => {
         );
 
         localStorage.setItem("mostFrequentMeal", mostFrequent);
-
       } else {
         localStorage.removeItem("mostFrequentMeal");
       }
     }
   }, [meals]);
-
 
   const toggleModal = (meal_id = null) => {
     setSelectedMealId(meal_id);
@@ -158,7 +161,6 @@ const Meals = () => {
       setMeals(filteredMeals); // Update the meals with the filtered list
     }
   };
-
 
   return (
     <>
@@ -232,8 +234,12 @@ const Meals = () => {
               <tbody>
                 {meals.length === 0 ? (
                   <tr>
-                    <td colSpan="7" className="text-center py-12 text-gray-800 dark:text-gray-300">
-                      No meals to display. Please add some meals to see them here.
+                    <td
+                      colSpan="7"
+                      className="text-center py-12 text-gray-800 dark:text-gray-300"
+                    >
+                      No meals to display. Please add some meals to see them
+                      here.
                     </td>
                   </tr>
                 ) : (
@@ -247,7 +253,11 @@ const Meals = () => {
                           <MealImage
                             value={meal.image}
                             onSave={(newImageUrl) => {
-                              handleUpdateMeal(meal.meal_id, newImageUrl, "image");
+                              handleUpdateMeal(
+                                meal.meal_id,
+                                newImageUrl,
+                                "image"
+                              );
                             }}
                           />
                         ) : (
@@ -273,7 +283,11 @@ const Meals = () => {
                         <MealLastEaten
                           value={meal.last_eaten}
                           onSave={(newDate) =>
-                            handleUpdateMeal(meal.meal_id, newDate, "last_eaten")
+                            handleUpdateMeal(
+                              meal.meal_id,
+                              newDate,
+                              "last_eaten"
+                            )
                           }
                         />
                       </td>
@@ -340,7 +354,6 @@ const Meals = () => {
       )}
     </>
   );
-
 };
 
 export default Meals;
