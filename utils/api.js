@@ -1,16 +1,16 @@
-import axios from "axios";
+import axios from 'axios';
 
 const weeklyMealsApi = axios.create({
-  baseURL: "https://weekly-meals-be.fly.dev/api",
+  baseURL: 'https://weekly-meals-be.fly.dev/api',
 });
 
 export const loadApi = async () => {
-  const res = await weeklyMealsApi.get("/");
+  const res = await weeklyMealsApi.get('/');
   return res.data;
 };
 
 export const loginUser = async (username, password) => {
-  const res = await weeklyMealsApi.post("/auth/login", {
+  const res = await weeklyMealsApi.post('/auth/login', {
     user: { username, password },
   });
   return res.data;
@@ -25,13 +25,13 @@ export const getUser = async (token, user_id) => {
 };
 
 export const registerUser = async (user) => {
-  const res = await weeklyMealsApi.post("/users", {
+  const res = await weeklyMealsApi.post('/users', {
     user,
   });
   return res.data;
 };
 
-export const getUserMeals = async (user_id, token, sort_by, order_by) => {
+export const getUserMeals = async (user_id, sort_by, order_by, token) => {
   const res = await weeklyMealsApi.get(`/users/${user_id}/meals`, {
     params: { sort_by, order_by },
     headers: {
@@ -43,7 +43,7 @@ export const getUserMeals = async (user_id, token, sort_by, order_by) => {
 
 export const addMeal = async (meal, token) => {
   const res = await weeklyMealsApi.post(
-    "/meals",
+    '/meals',
     meal, // Send meal data in the body
     { headers: { Authorization: `Bearer ${token}` } } // Correct place for headers
   );

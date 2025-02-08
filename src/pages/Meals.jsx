@@ -4,7 +4,7 @@ import NavigationBar from "../components/NavigationBar";
 import Loading from "../components/Loading";
 import AddMeal from "../components/AddMeal";
 import { UserContext } from "../contexts/UserContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faStar,
@@ -37,6 +37,11 @@ const Meals = () => {
 
   const navigate = useNavigate();
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const sortByQuery = searchParams.get("sort_by");
+  const orderByQuery = searchParams.get("order_by") && searchParams.get("order_by").toUpperCase();
+
   useEffect(() => {
     // Skip fetching meals if there's no loggedInUser
     if (!loggedInUser) {
@@ -61,7 +66,7 @@ const Meals = () => {
         const token = JSON.parse(localStorage.getItem("token"));
         // console.log(token)
         const userId = loggedInUser.user_id;
-        const mealsFromApi = await getUserMeals(userId, token);
+        const mealsFromApi = await getUserMeals(userId, sortByQuery, orderByQuery, token);
         localStorage.setItem(
           "userMealsNum",
           JSON.stringify(mealsFromApi.length)
@@ -77,7 +82,7 @@ const Meals = () => {
     };
 
     fetchMeals();
-  }, [loggedInUser, navigate, error, isDeleted, isUpdated]);
+  }, [loggedInUser, navigate, error, isDeleted, isUpdated, sortByQuery, orderByQuery]);
 
   useEffect(() => {
     if (meals.length > 0) {
@@ -182,17 +187,43 @@ const Meals = () => {
           <div className="flex-grow text-center">
             {/* <h2 className="text-4xl font-semibold text-gray-900 dark:text-white">My Meals</h2> */}
           </div>
-          <div className="flex justify-between items-center mb-6">
-            <input
-              type="text"
-              placeholder="Search Meals"
-              className="w-full max-w-sm px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-700 dark:bg-gray-700 dark:text-white dark:border-gray-600"
-              onChange={(e) => handleFilterMeals(e)}
-              value={filterText}
-            />
+          <div className="flex justify-between items-center w-full mb-6">
+            {/* Input and Selects Container - Takes Up Half Width */}
+            <div className="flex justify-between items-center w-1/2">
+              <input
+                type="text"
+                placeholder="Search Meals"
+                className="w-2/5 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-700 dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                onChange={(e) => handleFilterMeals(e)}
+                value={filterText}
+              />
 
+              {/* Grouping the select elements together, positioned at the end */}
+              <div className="flex gap-x-4 w-3/5 justify-end">
+                <select
+                  value={sortByQuery || "name"}
+                  onChange={(e) => { setSearchParams({ sort_by: e.target.value }) }}
+                  className="border p-2 rounded w-max bg-slate-50 dark:bg-gray-800 dark:text-white"
+                >
+                  <option value="name">Sort By Name</option>
+                  <option value="last_eaten">Sort By Last Eaten</option>
+                  <option value="rating">Sort By Rating</option>
+                </select>
+
+                <select
+                  value={orderByQuery || "desc"}
+                  onChange={(e) => { setSearchParams({ order_by: e.target.value }) }}
+                  className="border p-2 rounded w-max bg-slate-50 dark:bg-gray-800 dark:text-white"
+                >
+                  <option value="desc">Descending Order</option>
+                  <option value="asc">Ascending Order</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Button remains on the right side */}
             <button
-              className="ml-auto px-6 py-3 bg-indigo-500 text-white rounded shadow hover:bg-indigo-600 transition transform hover:scale-110"
+              className="px-6 py-3 bg-indigo-500 text-white rounded shadow hover:bg-indigo-600 transition transform hover:scale-110"
               onClick={() => setIsOpen(true)}
               title="Add New Meal"
             >
@@ -203,6 +234,8 @@ const Meals = () => {
               <AddMeal setIsOpen={setIsOpen} setIsUpdated={setIsUpdated} />
             )}
           </div>
+
+
 
           <div className="overflow-x-auto">
             <table className="min-w-full dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg rounded-lg">
