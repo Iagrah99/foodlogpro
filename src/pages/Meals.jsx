@@ -231,8 +231,8 @@ const Meals = () => {
                   defaultValue=""
                 >
                   <option value="" disabled>Order By</option>
-                  <option value="desc">Descending</option>
-                  <option value="asc">Ascending</option>
+                  <option value="desc">Latest</option>
+                  <option value="asc">Oldest</option>
                 </select>
               </div>
             </div>
