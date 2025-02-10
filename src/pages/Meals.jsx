@@ -40,7 +40,7 @@ const Meals = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const sortByQuery = searchParams.get("sort_by");
-  const orderByQuery = searchParams.get("order_by") && searchParams.get("order_by").toUpperCase();
+  const orderByQuery = searchParams.get("order_by");
 
   useEffect(() => {
     // Skip fetching meals if there's no loggedInUser
@@ -167,6 +167,18 @@ const Meals = () => {
     }
   };
 
+  const handleSortBy = (e) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("sort_by", e.target.value);
+    setSearchParams(newParams);
+  };
+
+  const handleOrderBy = (e) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("order_by", e.target.value);
+    setSearchParams(newParams);
+  }
+
   return (
     <>
       <NavigationBar page="login" />
@@ -201,22 +213,26 @@ const Meals = () => {
               {/* Grouping the select elements together, positioned at the end */}
               <div className="flex gap-x-4 w-3/5 justify-end">
                 <select
-                  value={sortByQuery || "name"}
-                  onChange={(e) => { setSearchParams({ sort_by: e.target.value }) }}
+                  value={sortByQuery || ""}
+                  onChange={(e) => handleSortBy(e)}
                   className="border p-2 rounded w-max bg-slate-50 dark:bg-gray-800 dark:text-white"
+                  defaultValue=""
                 >
-                  <option value="name">Sort By Name</option>
-                  <option value="last_eaten">Sort By Last Eaten</option>
-                  <option value="rating">Sort By Rating</option>
+                  <option value="" disabled>Sort By</option>
+                  <option value="name">Name</option>
+                  <option value="last_eaten">Last Eaten</option>
+                  <option value="rating">Rating</option>
                 </select>
 
                 <select
-                  value={orderByQuery || "desc"}
-                  onChange={(e) => { setSearchParams({ order_by: e.target.value }) }}
+                  value={orderByQuery || ""}
+                  onChange={(e) => { handleOrderBy(e) }}
                   className="border p-2 rounded w-max bg-slate-50 dark:bg-gray-800 dark:text-white"
+                  defaultValue=""
                 >
-                  <option value="desc">Descending Order</option>
-                  <option value="asc">Ascending Order</option>
+                  <option value="" disabled>Order By</option>
+                  <option value="desc">Descending</option>
+                  <option value="asc">Ascending</option>
                 </select>
               </div>
             </div>
