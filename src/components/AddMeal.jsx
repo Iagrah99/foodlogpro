@@ -21,6 +21,7 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isImageUploading, setIsImageUploading] = useState(false);
+  const [isImageUploaded, setIsImageUploaded] = useState(true);
   const [timer, setTimer] = useState(null);
 
   const modalRef = useRef(null); // Reference for the modal container
@@ -57,18 +58,19 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
   }, []);
 
   const handleImageUpload = async (file) => {
-    setIsImageUploading(true);
-    setTimer(
-      setTimeout(() => {
-        setIsImageUploading(false);
-      }, 5000)
-    );
+    // setIsImageUploading(true);
+    // setTimer(
+    //   setTimeout(() => {
+    //     setIsImageUploading(false);
+    //   }, 5000)
+    // );
 
     const apiKey = import.meta.env.VITE_IMGBB_API_KEY;
     const formData = new FormData();
     formData.append('image', file);
 
     try {
+      setIsImageUploading(true)
       const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
         method: 'POST',
         body: formData,
@@ -76,8 +78,12 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
       const data = await response.json();
       if (data.success) {
         setImageUrl(data.data.url);
+        setIsImageUploading(false);
+        setIsImageUploaded(true);
       } else {
         console.error('Image upload failed:', data.message);
+        setIsImageUploaded(false);
+        setIsImageUploading(false);
       }
     } catch (error) {
       console.error('Error uploading image:', error);
@@ -120,7 +126,7 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
   };
 
   const isFormValid = () => {
-    return name.trim() !== '' && source.trim() !== '' && rating !== '' && !isImageUploading;
+    return name.trim() !== '' && source.trim() !== '' && rating !== '' && !isImageUploading && isImageUploaded;
   };
 
   return (
@@ -214,21 +220,21 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
           </button>
 
           <button
-            className={`px-4 py-2 rounded transition ${isImageUploading || !isFormValid() || isLoading
+            className={`px-4 py-2 rounded transition ${isImageUploading || !isImageUploaded || !isFormValid() || isLoading
               ? 'cursor-not-allowed opacity-50 bg-indigo-500'
               : 'bg-indigo-500 hover:bg-indigo-600'
               } text-white`}
             onClick={handleAddMeal}
-            disabled={isImageUploading || !isFormValid() || isLoading}
+            disabled={isImageUploading || !isImageUploaded || !isFormValid() || isLoading}
             title={
-              isImageUploading
+              isImageUploading && !isImageUploaded
                 ? 'Uploading image... please wait'
                 : !isFormValid()
                   ? 'Please fill out the form first'
                   : 'Save Your Changes'
             }
           >
-            {isImageUploading ? (
+            {isImageUploading || !isImageUploaded ? (
               <div className="flex justify-between items-center">
                 <Spinner animation="border" role="status" style={{ width: '1rem', height: '1rem' }} />
                 <span className="ml-2">Uploading Image...</span>
