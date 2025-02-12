@@ -7,6 +7,7 @@ import NavigationBar from "../components/NavigationBar";
 import { updateUser, getUser } from "../../utils/api.js"; // Import the getUser function
 import ToggleTheme from "../components/ToggleTheme";
 import { format } from "date-fns";
+import AdminPanel from "../components/AdminPanel.jsx";
 
 const UserProfile = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -32,7 +33,7 @@ const UserProfile = () => {
       try {
         const token = JSON.parse(localStorage.getItem("token"));
         const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-        const {user_id} = loggedInUser;
+        const { user_id } = loggedInUser;
         const userData = await getUser(token, user_id);
         setCurrentUser(userData);
         setUser({
@@ -262,41 +263,50 @@ const UserProfile = () => {
                 </button>
               </>
             ) : (
-              <button
-                onClick={() => setIsEditing(true)}
-                className="bg-indigo-500 text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-600 transition w-full"
-              >
-                Edit Profile
-              </button>
+              <>
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="bg-indigo-500 text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-600 transition"
+                >
+                  Edit Profile
+                </button>
+                <button
+                  onClick={() => navigate("/my-meals")}
+                  className="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600 transition"
+                >
+                  View Meals
+                </button>
+              </>
             )}
           </div>
         </div>
 
         {/* User Stats Sidebar */}
-        <div className="p-6 rounded-lg shadow-lg w-fit ml-8 mt-10 dark:bg-gradient-to-r dark:from-gray-800 dark:to-gray-900">
-          <h2 className="text-gray-700 text-2xl text-center font-bold mb-4 dark:text-white">
-            User Statistics
-          </h2>
-          <div className="bg-gray-100 rounded-lg p-4 space-y-3 dark:bg-gray-800 dark:text-white">
-            {/* Meals Logged */}
-            <div className="flex items-center">
-              <FontAwesomeIcon icon={faUtensils} className="text-indigo-500 mr-2" />
-              <span className="font-medium">Meals Logged:</span>
-              <span className="ml-2">{userMealsNum}</span>
-            </div>
-            {/* Most Frequently Eaten Meal */}
-            <div className="flex items-center">
-              <FontAwesomeIcon icon={faDrumstickBite} className="text-red-500 mr-2" />
-              <span className="font-medium">Most Eaten Meal:</span>
-              <span className="ml-2">{mostFrequentMeal}</span>
+        <div>
+          <div className="p-6 rounded-lg shadow-lg w-fit ml-8 mt-10 dark:bg-gradient-to-r dark:from-gray-800 dark:to-gray-900">
+            <h2 className="text-gray-700 text-2xl text-center font-bold mb-4 dark:text-white">
+              User Statistics
+            </h2>
+            <div className="bg-gray-100 rounded-lg p-4 space-y-3 dark:bg-gray-800 dark:text-white">
+              {/* Meals Logged */}
+              <div className="flex items-center">
+                <FontAwesomeIcon icon={faUtensils} className="text-indigo-500 mr-2" />
+                <span className="font-medium">Meals Logged:</span>
+                <span className="ml-2">{userMealsNum}</span>
+              </div>
+              {/* Most Frequently Eaten Meal */}
+              <div className="flex items-center">
+                <FontAwesomeIcon icon={faDrumstickBite} className="text-red-500 mr-2" />
+                <span className="font-medium">Most Eaten Meal:</span>
+                <span className="ml-2">{mostFrequentMeal}</span>
+              </div>
             </div>
           </div>
-          <button
-            onClick={() => navigate("/my-meals")}
-            className="bg-indigo-500 text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-600 transition mt-4 w-full"
-          >
-            View Meals
-          </button>
+
+          {currentUser.username === "Ian" && <AdminPanel />}
+
+
+
         </div>
       </div>
     </>

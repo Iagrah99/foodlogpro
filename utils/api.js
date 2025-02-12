@@ -24,6 +24,16 @@ export const getUser = async (token, user_id) => {
   return res.data.user;
 };
 
+export const getUsers = async () => {
+  const res = await weeklyMealsApi.get('/users');
+  return res.data.users;
+};
+
+export const getMeals = async () => {
+  const res = await weeklyMealsApi.get('/meals');
+  return res.data.meals;
+};
+
 export const registerUser = async (user) => {
   const res = await weeklyMealsApi.post('/users', {
     user,
