@@ -303,9 +303,7 @@ const UserProfile = () => {
             </div>
           </div>
 
-          {currentUser.username === "Ian" && <AdminPanel />}
-
-
+          {currentUser.user_id === 4 && <AdminPanel />}
 
         </div>
       </div>
