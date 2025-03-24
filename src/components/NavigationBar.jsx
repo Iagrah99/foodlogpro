@@ -41,6 +41,8 @@ const NavigationBar = ({ avatarUpdated, setAvatarUpdated }) => {
         setIsScrolled(true);
       } else if (location.pathname === "/") {
         setIsScrolled(window.scrollY > 800);
+      } else if (location.pathname === "/faq") {
+        setIsScrolled(window.scrollY > 1100);
       }
     };
 
