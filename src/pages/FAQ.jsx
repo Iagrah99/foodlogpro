@@ -80,7 +80,7 @@ const FAQ = () => {
                     : "opacity-0 translate-y-12"
                 }`}
               >
-                Find answers to the most common questions about FoodLogPro.
+                Find answers to the most common questions about Dinner Diary.
               </p>
             </div>
             <a href="#info">
@@ -110,7 +110,7 @@ const FAQ = () => {
                 {
                   question: "How do I track my meals?",
                   answer:
-                    "Simply log your meals using the app, and FoodLogPro will keep track of your meals and provide insightful statistics and recommendations.",
+                    "Simply log your meals using the app, and Dinner Diary will keep track of your meals and provide insightful statistics and recommendations.",
                 },
                 {
                   question: "How do I edit my meals?",
@@ -157,7 +157,7 @@ const FAQ = () => {
           </h2>
           <p className="text-lg text-gray-700 dark:text-gray-300 mb-10 max-w-xl mx-auto">
             If you're experiencing issues, have a feature request, or just need
-            help using FoodLogPro, send us a message below.
+            help using Dinner Diary, send us a message below.
           </p>
           <div className="max-w-2xl mx-auto text-left">
             <form

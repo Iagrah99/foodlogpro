@@ -66,7 +66,7 @@ const NavigationBar = ({ avatarUpdated, setAvatarUpdated }) => {
             href="/"
             className={`${isScrolled ? "text-green-500" : "text-green-300"} text-4xl font-semibold no-underline text-shadow-lg dark:text-green-400`}
           >
-            FoodLogPro
+            Dinner Diary
           </a>
 
           <div className="lg:block space-x-6">

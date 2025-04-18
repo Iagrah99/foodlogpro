@@ -144,7 +144,7 @@ const Home = () => {
                       : "opacity-0 translate-y-12"
                       }`}
                   >
-                    Welcome to FoodLogPro!
+                    Welcome to Dinner Diary!
                   </h1>
 
                   {/* Paragraph with fade-in effect */}
@@ -204,7 +204,7 @@ const Home = () => {
             >
               <div className="mt-16">
                 <h2 className="text-4xl font-semibold m-auto pb-4 text-gray-900 mb-12 border-b-4 border-indigo-500 w-max dark:text-white dark:border-indigo-400">
-                  Why Use FoodLogPro?
+                  Why Use Dinner Diary?
                 </h2>
               </div>
               <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
@@ -287,7 +287,7 @@ const Home = () => {
                   className="testimonial bg-gray-100 p-10 rounded-lg shadow-lg flex flex-col items-center justify-between h-full dark:bg-gray-700"
                 >
                   <p className="text-lg text-gray-700 italic mb-6 dark:text-gray-200">
-                    "FoodLogPro has completely changed how I approach dinner
+                    "Dinner Diary has completely changed how I approach dinner
                     planning. I love the simplicity and ease of tracking!"
                   </p>
                   <img
@@ -345,7 +345,7 @@ const Home = () => {
                   Ready to Make Meal Tracking Easy?
                 </h2>
                 <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto dark:text-gray-200">
-                  Join FoodLogPro today and start your journey to healthier
+                  Join Dinner Diary today and start your journey to healthier
                   eating. Track meals, plan ahead, and get insightful health
                   tips—all in one place.
                 </p>

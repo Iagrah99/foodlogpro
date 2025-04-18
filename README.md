@@ -1,6 +1,6 @@
-# FoodLogPro
+# Dinner Diary
 
-Welcome to **FoodLogPro**, a full-stack web application designed to help users track and manage their tea/dinner meals. Originally created to streamline meal tracking for family use, this platform allows users to log meals, manage their account, and view insightful meal statistics.
+Welcome to **Dinner Diary**, a full-stack web application designed to help users track and manage their tea/dinner meals. Originally created to streamline meal tracking for family use, this platform allows users to log meals, manage their account, and view insightful meal statistics.
 
 ## Table of Contents
 1. [Project Overview](#project-overview)
@@ -10,9 +10,9 @@ Welcome to **FoodLogPro**, a full-stack web application designed to help users t
 
 ## Project Overview
 
-**FoodLogPro** is a meal tracking application that allows users to log their meals for tea/dinner along with detailed attributes such as the meal name, recipe source, last eaten date, rating, and an image. Users can also view and manage account details while tracking meal-related statistics, such as total meals logged and their most frequently eaten meal.
+**Dinner Diary** is a meal tracking application that allows users to log their meals for tea/dinner along with detailed attributes such as the meal name, recipe source, last eaten date, rating, and an image. Users can also view and manage account details while tracking meal-related statistics, such as total meals logged and their most frequently eaten meal.
 
-The hosted version can be found [here](https://foodlogpro.vercel.app/).
+The hosted version can be found [here](https://dinnerdiary.vercel.app/).
 
 ### Core Functionality
 - Users can log, edit, and delete meals with various attributes.
@@ -65,12 +65,12 @@ The hosted version can be found [here](https://foodlogpro.vercel.app/).
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/Iagrah99/foodlogpro.git
+   git clone https://github.com/Iagrah99/dinner-diary.git
 
  1B. Change from the current directory into the project folder
    
    ```bash
-   cd foodlogpro
+   cd dinner-diary
    ```
 
    1C. Open up the folder in VS Code

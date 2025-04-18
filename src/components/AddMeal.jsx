@@ -58,13 +58,6 @@ const AddMeal = ({ setIsOpen, setIsUpdated }) => {
   }, []);
 
   const handleImageUpload = async (file) => {
-    // setIsImageUploading(true);
-    // setTimer(
-    //   setTimeout(() => {
-    //     setIsImageUploading(false);
-    //   }, 5000)
-    // );
-
     const apiKey = import.meta.env.VITE_IMGBB_API_KEY;
     const formData = new FormData();
     formData.append('image', file);
